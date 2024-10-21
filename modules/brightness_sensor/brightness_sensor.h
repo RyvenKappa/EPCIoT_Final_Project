@@ -1,0 +1,4 @@
+#ifndef BRIGHTNESS_SENSOR_H
+#define BRIGHTNESS_SENSOR_H
+
+#endif
