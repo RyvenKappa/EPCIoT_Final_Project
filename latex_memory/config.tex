@@ -1,0 +1,64 @@
+%Packet section
+\usepackage[utf8]{inputenc}
+\usepackage[style=ieee]{biblatex}
+\usepackage{csquotes}
+\usepackage[top=2.5cm,bottom=2.5cm,left=4cm,right=2cm]{geometry}
+\usepackage[english]{babel}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{pdfpages} % Para insertar la portada en formato PDF.
+\usepackage[hidelinks]{hyperref} % Para urls.
+\usepackage{longtable} % Para tablas largas.
+\usepackage{graphicx} % Para cargar imagenes
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage[parfill]{parskip}
+\usepackage[acronym,nogroupskip]{glossaries}
+\usepackage{todonotes}
+\usepackage{dirtree}
+\usepackage{subcaption}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{algpseudocodex}
+\usepackage{algorithm}
+\usepackage{listings}
+\raggedbottom
+
+%\addbibresource{TFGDiego.bib}
+
+%Eliminar la sangría y otros ajustes de los headers
+\setlength{\parindent}{0px}
+\setlength{\headheight}{13.07225pt}
+%Glosaries
+\input{glosary.tex}
+\renewcommand*\glspostdescription{\hfill}
+\newcommand\acrfullr[2][]{\acrshort[#1]{#2} (\acrlong[#1]{#2})}
+
+
+%New page styles
+\fancypagestyle{specialpage}{
+  \fancyhf{}
+  \fancyhead[OL]{\textit{1  GLOSARY}}
+  \fancyhead[ER]{\textit{1  GLOSARY}}
+  \fancyfoot[EL]{\thepage}
+  \fancyfoot[OR]{\thepage}
+}
+\fancypagestyle{indicefig}{
+  \fancyhf{}
+  \fancyhead[OL]{\textit{FIGURE AND TABLE LIST}}
+  \fancyhead[ER]{\textit{FIGURE AND TABLE LIST}}
+  \fancyfoot[EL]{\thepage}
+  \fancyfoot[OR]{\thepage}
+}
+\fancypagestyle{abstract}{
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt} % Asegurarse de que la barra negra también se elimine en esta página
+    \fancyfoot[EL]{\thepage}
+    \fancyfoot[OR]{\thepage}
+}
+
+%Tools to write code directly into the document.
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
