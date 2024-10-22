@@ -14,6 +14,13 @@
 */
 
 /**
+* Function to setup:
+*   - Initial State of the system.
+*   - Board Leds initial state.
+*/
+extern void state_machine_init();
+
+/**
 * Function to do one cycle of the state_machine.
 */
 extern void state_machine_cycle();
