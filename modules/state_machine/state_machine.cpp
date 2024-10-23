@@ -1,4 +1,3 @@
-#include "mbed.h"
 #include "state_machine.h"
 #include "../button/switch.h"
 
