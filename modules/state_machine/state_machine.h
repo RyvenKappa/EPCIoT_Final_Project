@@ -16,6 +16,8 @@
 *
 */
 
+#define QUEUE_SIZE 32
+
 /**
 * @brief Enumeration for the entering msg to the main thread.
 */
@@ -87,7 +89,7 @@ typedef struct{
 }ctrl_msg;
 
 
-extern Queue<ctrl_msg, sizeof(ctrl_msg)> ctrl_in_queue;
+extern Queue<ctrl_msg, QUEUE_SIZE> ctrl_in_queue;
 
 /**
 * Function to setup:
