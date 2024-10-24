@@ -13,7 +13,6 @@
 */
 
 extern volatile int button_pressed_msg;
-extern volatile int button_released_msg;
 
 
 /**
