@@ -16,7 +16,6 @@ static ctrl_msg ctrl_msg_t;
 static void read_moisture_sensor_data(){
     ctrl_msg_t.type=MOISTURE;
     ctrl_msg_t.moisture_msg = 0;
-    float moisture_value = 0;
     while(true){
         ThisThread::flags_wait_all(MOISTURE_SIGNAL);
         ctrl_msg_t.moisture_msg = ((float)value_reader.read_u16()*100)/0xFFFF;
