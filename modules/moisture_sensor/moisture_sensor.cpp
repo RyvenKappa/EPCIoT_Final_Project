@@ -4,7 +4,7 @@
 #define MOISTURE_READ_PIN PA_5
 //Por ahora no le voy a meter la funcionalidad del drive por GPIO #define MOISTURE_POWER_PIN 
 
-Thread moisture_thread;
+Thread moisture_thread(osPriorityNormal,256);
 
 static AnalogIn value_reader(MOISTURE_READ_PIN);
 
