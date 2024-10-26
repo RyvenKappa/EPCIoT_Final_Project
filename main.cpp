@@ -9,6 +9,7 @@ int main()
     //Init leds
     button_init();
     state_machine_init();
+    moisture_sensor_init();
     while (true) {
         state_machine_cycle();
     }
