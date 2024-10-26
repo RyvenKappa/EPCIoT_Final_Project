@@ -1,6 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 #include "mbed.h"
+#include <cstdint>
 
 /**
 * @file control.h
@@ -48,15 +49,15 @@ typedef struct{
 * @brief Structure for the payload of the gps msg
 */
 typedef struct{
-    int sats;
-    float lat;
+    uint8_t sats;
+    uint8_t time_h;
+    uint8_t time_m;
+    uint8_t time_s;
+    uint16_t altitude;
     bool lat_n;
-    float lng;
     bool lng_w;
-    long altitude;
-    int time_h;
-    int time_m;
-    int time_s;
+    float lat;
+    float lng;
 }gps_msg_t;
 
 /**
