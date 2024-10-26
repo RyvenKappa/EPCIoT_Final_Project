@@ -2,6 +2,7 @@
 #include "state_machine.h"
 #include "../button/switch.h"
 #include "../moisture_sensor/moisture_sensor.h"
+#include "../brightness_sensor/brightness_sensor.h"
 #include "control.h"
 
 Queue<ctrl_msg, QUEUE_SIZE> ctrl_in_queue;
@@ -41,11 +42,16 @@ void state_machine_cycle(){
             if(ticker_event){
                 ticker_event=false;
                 moisture_thread.flags_set(MOISTURE_SIGNAL);
-                ctrl_in_queue.try_get_for(Kernel::wait_for_u32_forever, &ctrl_msg_t);
+                brightness_thread.flags_set(BRIGHTNESS_SIGNAL);
+            }
+            if(ctrl_in_queue.try_get(&ctrl_msg_t)){
                 if (ctrl_msg_t->type==MOISTURE){
                     printf("Value of the moisture: %f\n",ctrl_msg_t->moisture_msg);
+                }else if (ctrl_msg_t->type==BRIGHTNESS) {
+                    printf("Value of the brightness: %f\n",ctrl_msg_t->brightness_msg);
                 }
             }
+
             if(button_pressed_msg){
                 button_pressed_msg = 0;
                 actual_state = NORMAL;
