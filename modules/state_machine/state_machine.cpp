@@ -4,6 +4,7 @@
 #include "../moisture_sensor/moisture_sensor.h"
 #include "../brightness_sensor/brightness_sensor.h"
 #include "control.h"
+#include "i2c_interface.h"
 
 Queue<ctrl_msg, QUEUE_SIZE> ctrl_in_queue;
 
@@ -16,6 +17,7 @@ enum STATES{
 static STATES actual_state;
 
 static BusOut board_leds(LED1,LED2,LED3);
+I2C i2c_bus(I2C_SDA_PIN,I2C_SCL_PIN);
 
 static ctrl_msg* ctrl_msg_t;
 
