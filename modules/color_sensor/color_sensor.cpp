@@ -6,6 +6,7 @@
 #include <stdint.h>
 
 Thread color_thread(osPriorityNormal,256);
+DigitalOut color_led(COLOR_SENSOR_LED);
 
 static ctrl_msg ctrl_msg_t;
 
@@ -33,6 +34,7 @@ static void read_color_sensor_data(){
     ctrl_msg_t.color_msg.red=0;
     while (true) {
         ThisThread::flags_wait_all(COLOR_SIGNAL);
+        color_led.write(1);
         //Activate sensor, AEN & PON
         cmd[0] = COLOR_SENSOR_CMD_MSK | COLOR_SENSOR_TYPE_AUTO_INCREMENT | COLOR_SENSOR_ENABLE;
         cmd[1] = 0x03;
@@ -40,6 +42,7 @@ static void read_color_sensor_data(){
         ThisThread::sleep_for(3ms); //PON stabilization time
         //Wait for integration and reading
         ThisThread::sleep_for(160ms); //Integration time and RGBC Init 2.4
+        color_led.write(0);
         cmd[0] = COLOR_SENSOR_CMD_MSK | COLOR_SENSOR_TYPE_AUTO_INCREMENT | COLOR_SENSOR_CDATAL;
         i2c_bus.write(COLOR_SENSOR_SLAVE_ADDRESS<<1,cmd,1);
         i2c_bus.read(COLOR_SENSOR_SLAVE_ADDRESS<<1,data,8);

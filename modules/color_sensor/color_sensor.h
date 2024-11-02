@@ -14,6 +14,9 @@
 *
 */
 
+#define COLOR_SENSOR_LED PA_9
+
+
 #define COLOR_SENSOR_SLAVE_ADDRESS 0x29
 
 #define COLOR_SENSOR_CMD_MSK 0x80
