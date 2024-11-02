@@ -5,6 +5,7 @@
 #include "modules/brightness_sensor/brightness_sensor.h"
 #include "modules/color_sensor/color_sensor.h"
 #include "modules/temp_hum_sensor/temp_hum.h"
+#include "modules/accelerometer_sensor/accelerometer.h"
 
 // main() runs in its own thread in the OS
 int main()
@@ -15,6 +16,7 @@ int main()
     moisture_sensor_init();
     brightness_sensor_init();
     temp_hum_sensor_init();
+    accelerometer_sensor_init();
     while (true) {
         state_machine_cycle();
     }
