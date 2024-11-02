@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <stdint.h>
 
-Thread color_thread(osPriorityNormal,256);
+Thread color_thread(osPriorityNormal,256,nullptr,"ColorThread");
 DigitalOut color_led(COLOR_SENSOR_LED);
 
 static ctrl_msg ctrl_msg_t;

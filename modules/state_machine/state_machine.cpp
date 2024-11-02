@@ -4,6 +4,7 @@
 #include "../moisture_sensor/moisture_sensor.h"
 #include "../brightness_sensor/brightness_sensor.h"
 #include "../color_sensor/color_sensor.h"
+#include "../temp_hum_sensor/temp_hum.h"
 #include "control.h"
 #include "i2c_interface.h"
 
@@ -36,7 +37,7 @@ void ticker_handler(){
 void state_machine_init(){
     actual_state = TEST;
     board_leds.write(1);
-    ticker.attach(ticker_handler,2s);
+    ticker.attach(ticker_handler,5s);
 }
 
 void state_machine_cycle(){
