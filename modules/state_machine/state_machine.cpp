@@ -3,6 +3,7 @@
 #include "../button/switch.h"
 #include "../moisture_sensor/moisture_sensor.h"
 #include "../brightness_sensor/brightness_sensor.h"
+#include "../color_sensor/color_sensor.h"
 #include "control.h"
 #include "i2c_interface.h"
 
