@@ -4,7 +4,7 @@
 
 #define BRIGHTNESS_READ_PIN PA_4
 
-Thread brightness_thread(osPriorityNormal,256);
+Thread brightness_thread(osPriorityNormal,256,nullptr,"BrightnessThread");
 
 static AnalogIn value_reader(BRIGHTNESS_READ_PIN);
 
