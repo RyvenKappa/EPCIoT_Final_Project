@@ -36,6 +36,7 @@ static void read_color_sensor_data(){
         ThisThread::flags_wait_all(COLOR_SIGNAL);
         color_led.write(1);
         //Activate sensor, AEN & PON
+        i2c_bus.lock();
         cmd[0] = COLOR_SENSOR_CMD_MSK | COLOR_SENSOR_TYPE_AUTO_INCREMENT | COLOR_SENSOR_ENABLE;
         cmd[1] = 0x03;
         i2c_bus.write(COLOR_SENSOR_SLAVE_ADDRESS<<1,cmd,2);
@@ -50,6 +51,7 @@ static void read_color_sensor_data(){
         cmd[0] = COLOR_SENSOR_CMD_MSK | COLOR_SENSOR_TYPE_AUTO_INCREMENT | COLOR_SENSOR_ENABLE;
         cmd[1] = 0x00;//!AEN & !PON
         i2c_bus.write(COLOR_SENSOR_SLAVE_ADDRESS<<1,cmd,2);
+        i2c_bus.unlock();
         //Process measurement into the ctrl_msg_t and put into queue
         measurement_process();
         ctrl_in_queue.try_put_for(Kernel::wait_for_u32_forever, &ctrl_msg_t);
@@ -58,11 +60,13 @@ static void read_color_sensor_data(){
 
 
 void color_sensor_init(){
+    i2c_bus.lock();
     cmd[0] = COLOR_SENSOR_CMD_MSK | COLOR_SENSOR_TYPE_AUTO_INCREMENT | COLOR_SENSOR_ENABLE;
     cmd[1] = 0x02; //Wait dissabled, interruptions dissabled and AEN deactivated
     i2c_bus.write(COLOR_SENSOR_SLAVE_ADDRESS<<1,cmd,2);
     cmd[0] = COLOR_SENSOR_CMD_MSK | COLOR_SENSOR_TYPE_AUTO_INCREMENT | COLOR_SENSOR_ATIME;
     cmd[1] = 0xC0;//154ms of RGBC Integration
     i2c_bus.write(COLOR_SENSOR_SLAVE_ADDRESS<<1,cmd,2);
+    i2c_bus.unlock();
     color_thread.start(&read_color_sensor_data);
 }

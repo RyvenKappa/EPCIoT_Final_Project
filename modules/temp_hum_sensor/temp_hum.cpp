@@ -17,7 +17,8 @@ static char buff[2];
 */
 static void converted_reading(){
     cmd = TH_SENSOR_MEASUREH_MASTER;
-    i2c_bus.write(TH_SENSOR_SLAVE_ADDRESS<<1,&cmd,1);
+    i2c_bus.lock();
+    i2c_bus.write(TH_SENSOR_SLAVE_ADDRESS<<1,&cmd,1,true);
     //Humidity
     i2c_bus.read(TH_SENSOR_SLAVE_ADDRESS<<1,buff,2);
     //conversion
@@ -28,6 +29,7 @@ static void converted_reading(){
     cmd = TH_SENSOR_MEASURET_PREVIOUS;
     i2c_bus.write(TH_SENSOR_SLAVE_ADDRESS<<1,&cmd,1);
     i2c_bus.read(TH_SENSOR_SLAVE_ADDRESS<<1,buff,2);
+    i2c_bus.unlock();
     //Conversion
     ctrl_msg_t.temp_hum_msg.temp = (175.72*(buff[0]<<8 | buff[1])/65536.0)-46.85;
 }

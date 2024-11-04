@@ -40,6 +40,7 @@ static void read_accelerometer_data(){
         //Set Active mode into the sensor
         cmd[0] = ACCELEROMETER_CTRL_REG1;
         cmd[1] = 0x01;//Active
+        i2c_bus.lock();
         i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
         ThisThread::sleep_for(5ms); //Turn-on time from standby
 
@@ -48,12 +49,14 @@ static void read_accelerometer_data(){
         cmd[0] = ACCELEROMETER_CTRL_REG1;
         cmd[1] = 0x00;//Standby
         i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
+        i2c_bus.unlock();
         ctrl_in_queue.try_put_for(Kernel::wait_for_u32_forever, &ctrl_msg_t);
     }
 }
 
 void accelerometer_sensor_init(){
     //Reset of the sensor
+    i2c_bus.lock();
     cmd[0] = ACCELEROMETER_CTRL_REG2;
     cmd[1] = 0x40;
     i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
@@ -73,6 +76,7 @@ void accelerometer_sensor_init(){
     cmd[0] = ACCELEROMETER_CTRL_REG1;
     cmd[1] = 0x01;
     i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
+    i2c_bus.unlock();
     //Low noise is only 4G
     //cmd[1] = 0x05;
     //i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
