@@ -5,6 +5,7 @@
 #include "../brightness_sensor/brightness_sensor.h"
 #include "../color_sensor/color_sensor.h"
 #include "../temp_hum_sensor/temp_hum.h"
+#include "../accelerometer_sensor/accelerometer.h"
 #include "control.h"
 #include "i2c_interface.h"
 
@@ -47,6 +48,7 @@ void state_machine_cycle(){
                 ticker_event=false;
                 moisture_thread.flags_set(MOISTURE_SIGNAL);
                 brightness_thread.flags_set(BRIGHTNESS_SIGNAL);
+                //accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
             }
             if(ctrl_in_queue.try_get(&ctrl_msg_t)){
                 if (ctrl_msg_t->type==MOISTURE){
