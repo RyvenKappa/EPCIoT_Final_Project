@@ -85,9 +85,6 @@ static void read_sensors_data(){
                 break;
             case GPS:
                 break;
-            case BRIGHTNESS:
-                light = ctrl_msg_t->brightness_msg;
-                break;
             case TEMP_HUM:
                 temp = ctrl_msg_t->temp_hum_msg.temp;
                 humidity = ctrl_msg_t->temp_hum_msg.hum;
@@ -104,6 +101,8 @@ static void read_sensors_data(){
                 break;
         }
     }
+    //Non thread messages
+    light = read_brightness_sensor_data();
     printf("MODE: %d\n",actual_state);
     printf("SOIL MOISTURE: %.1f%%\n",moisture);
     printf("LIGHT: %.1f\n",light);
@@ -119,9 +118,7 @@ void state_machine_cycle(){
             if(timeout_event){
                 timeout_event = false;
                 moisture_thread.flags_set(MOISTURE_SIGNAL);
-                brightness_thread.flags_set(BRIGHTNESS_SIGNAL);
                 accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
-                brightness_thread.flags_set(BRIGHTNESS_SIGNAL);
                 temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
                 color_thread.flags_set(COLOR_SIGNAL);
             }
@@ -147,9 +144,7 @@ void state_machine_cycle(){
             if(timeout_event){
                 timeout_event = false;
                 moisture_thread.flags_set(MOISTURE_SIGNAL);
-                brightness_thread.flags_set(BRIGHTNESS_SIGNAL);
                 accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
-                brightness_thread.flags_set(BRIGHTNESS_SIGNAL);
                 temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
                 color_thread.flags_set(COLOR_SIGNAL);
             }
