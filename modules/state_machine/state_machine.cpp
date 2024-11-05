@@ -96,12 +96,10 @@ static void read_sensors_data(){
                 color_blue = ctrl_msg_t->color_msg.blue;
                 //TODO maximo
                 break;
-            case MOISTURE:
-                moisture = ctrl_msg_t->moisture_msg;
-                break;
         }
     }
     //Non thread messages
+    moisture = read_moisture_sensor_data();
     light = read_brightness_sensor_data();
     printf("MODE: %d\n",actual_state);
     printf("SOIL MOISTURE: %.1f%%\n",moisture);
