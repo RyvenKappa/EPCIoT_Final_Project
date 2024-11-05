@@ -17,6 +17,6 @@
 * @brief Reading of the analoge brightness sensor
 * @return Float value as a percentage of the maximum possible value.
 */
-extern float brightness_sensor_read_data();
+extern float read_brightness_sensor_data();
 
 #endif
