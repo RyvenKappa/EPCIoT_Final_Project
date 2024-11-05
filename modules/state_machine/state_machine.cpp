@@ -69,7 +69,7 @@ void state_machine_init(){
     actual_state = TEST;
     board_leds.write(1);
     ticker.attach(ticker_isr,2000ms);
-    timeout.attach(timeout_isr, 1800ms);
+    timeout.attach(timeout_isr, 1700ms);
     i2c_bus.frequency(400000);
 }
 /**
@@ -129,7 +129,7 @@ void state_machine_cycle(){
                 ticker_event=false;
                 read_sensors_data();
                 ticker.attach(ticker_isr,2000ms);
-                timeout.attach(timeout_isr, 1800ms);
+                timeout.attach(timeout_isr, 1700ms);
 
             }
             if(button_pressed_msg){
@@ -138,7 +138,7 @@ void state_machine_cycle(){
                 ticker.detach();
                 timeout.detach();
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29800ms);
+                timeout.attach(timeout_isr, 29700ms);
                 board_leds.write(2);
                 printf("Test a Normal\n");
             }
@@ -157,7 +157,7 @@ void state_machine_cycle(){
                 ticker_event=false;
                 read_sensors_data();
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29800ms);
+                timeout.attach(timeout_isr, 29700ms);
 
             }
             if (button_pressed_msg) {
@@ -174,7 +174,7 @@ void state_machine_cycle(){
                 button_pressed_msg = 0;
                 actual_state = TEST;
                 ticker.attach(ticker_isr,2000ms);
-                timeout.attach(timeout_isr, 1800ms);
+                timeout.attach(timeout_isr, 1700ms);
                 board_leds.write(1);
                 printf("Advanced a Test\n");
             }
