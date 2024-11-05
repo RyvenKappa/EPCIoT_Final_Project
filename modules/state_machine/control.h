@@ -14,7 +14,7 @@
 *
 */
 
-#define QUEUE_SIZE 32
+#define QUEUE_SIZE 16
 
 #define ACCELEROMETER_SIGNAL 1U
 #define GPS_SIGNAL           2U
