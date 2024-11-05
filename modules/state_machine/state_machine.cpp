@@ -96,12 +96,10 @@ static void read_sensors_data(){
                 color_blue = ctrl_msg_t->color_msg.blue;
                 //TODO maximo
                 break;
-            case MOISTURE:
-                moisture = ctrl_msg_t->moisture_msg;
-                break;
         }
     }
     //Non thread messages
+    moisture = read_moisture_sensor_data();
     light = read_brightness_sensor_data();
     printf("MODE: %d\n",actual_state);
     printf("SOIL MOISTURE: %.1f%%\n",moisture);
@@ -117,7 +115,6 @@ void state_machine_cycle(){
         case TEST:
             if(timeout_event){
                 timeout_event = false;
-                moisture_thread.flags_set(MOISTURE_SIGNAL);
                 accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
                 temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
                 color_thread.flags_set(COLOR_SIGNAL);
@@ -143,7 +140,6 @@ void state_machine_cycle(){
         case NORMAL:
             if(timeout_event){
                 timeout_event = false;
-                moisture_thread.flags_set(MOISTURE_SIGNAL);
                 accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
                 temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
                 color_thread.flags_set(COLOR_SIGNAL);

@@ -9,17 +9,14 @@
 * @author Diego Aceituno Seoane
 *
 * Controls a SparkFun soil moisture sensor.
+* This module powers off and on the digital pin in order to reduce wearness over time.
 *
 */
 
 /**
-* @brief Measurement thread for the moisture sensor
+* @brief Reading of the analoge moisture sensor
+* @return Float value as a percentage of the maximum possible value.
 */
-extern Thread moisture_thread; 
-
-/**
-* @brief Inicialization of the moisture_sensor_thread
-*/
-extern void  moisture_sensor_init();
+extern float read_moisture_sensor_data();
 
 #endif

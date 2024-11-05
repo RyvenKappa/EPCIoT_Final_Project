@@ -14,14 +14,14 @@
 *
 */
 
-#define QUEUE_SIZE 16
+#define QUEUE_SIZE 10
 
 #define ACCELEROMETER_SIGNAL 1U
 #define GPS_SIGNAL           2U
 //#define BRIGHTNESS_SIGNAL    4U No thread
 #define TEMP_HUM_SIGNAL      8U
 #define COLOR_SIGNAL         16U
-#define MOISTURE_SIGNAL      32U
+//#define MOISTURE_SIGNAL      32U
 
 /**
 * @brief Enumeration for the entering msg to the main thread.
@@ -30,8 +30,7 @@ typedef enum{
     ACCELEROMETER,
     GPS,
     TEMP_HUM,
-    COLOR,
-    MOISTURE
+    COLOR
 }msg_type;
 
 
@@ -87,7 +86,6 @@ typedef struct{
         gps_msg_t           gps_msg;
         temp_hum_msg_t      temp_hum_msg;
         color_msg_t         color_msg;
-        float               moisture_msg;
     };
 }ctrl_msg;
 
