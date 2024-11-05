@@ -42,7 +42,7 @@ static float humidity = 0.0;
 
 
 
-static Ticker ticker;   //TODO change to lp
+static Timeout ticker;   //TODO change to lp
 static Timeout timeout; //TODO change to lp
 static volatile bool timeout_event = false;
 static volatile bool ticker_event = false;
@@ -68,7 +68,7 @@ static STATES actual_state;
 void state_machine_init(){
     actual_state = TEST;
     board_leds.write(1);
-    ticker.attach(ticker_isr,2s);
+    ticker.attach(ticker_isr,2000ms);
     timeout.attach(timeout_isr, 1800ms);
     i2c_bus.frequency(400000);
 }
@@ -128,7 +128,7 @@ void state_machine_cycle(){
             if(ticker_event){
                 ticker_event=false;
                 read_sensors_data();
-                timeout.detach();
+                ticker.attach(ticker_isr,2000ms);
                 timeout.attach(timeout_isr, 1800ms);
 
             }
@@ -137,7 +137,7 @@ void state_machine_cycle(){
                 actual_state = NORMAL;
                 ticker.detach();
                 timeout.detach();
-                ticker.attach(ticker_isr,30s);
+                ticker.attach(ticker_isr,30000ms);
                 timeout.attach(timeout_isr, 29800ms);
                 board_leds.write(2);
                 printf("Test a Normal\n");
@@ -156,7 +156,7 @@ void state_machine_cycle(){
             if(ticker_event){
                 ticker_event=false;
                 read_sensors_data();
-                timeout.detach();
+                ticker.attach(ticker_isr,30000ms);
                 timeout.attach(timeout_isr, 29800ms);
 
             }
@@ -173,7 +173,7 @@ void state_machine_cycle(){
             if (button_pressed_msg) {
                 button_pressed_msg = 0;
                 actual_state = TEST;
-                ticker.attach(ticker_isr,2s);
+                ticker.attach(ticker_isr,2000ms);
                 timeout.attach(timeout_isr, 1800ms);
                 board_leds.write(1);
                 printf("Advanced a Test\n");
