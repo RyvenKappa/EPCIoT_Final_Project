@@ -4,23 +4,19 @@
 /**
 * @file brightness_sensor.h
 *
-* @brief Modulo para controlar el sensor de brillo.
+* @brief Brightness control module.
 *
 * @author Diego Aceituno Seoane
 *
-* Controls the inicialization of the photo-transistor for the brightness.
-* Controls of the measurements with a separate thread.
+* Controls the measurement of the photo-transistor for the brightness.
 * This module is implemented taking into account that the voltage in the collector is 3.3 Volts.
 * 
 */
 
 /**
-* @brief Measurement thread for the brightness sensor.
+* @brief Reading of the analoge brightness sensor
+* @return Float value as a percentage of the maximum possible value.
 */
-extern Thread brightness_thread;
+extern float brightness_sensor_read_data();
 
-/**
-* @brief Inicialization of the brightness_sensor_thread.
-*/
-extern void brightness_sensor_init();
 #endif
