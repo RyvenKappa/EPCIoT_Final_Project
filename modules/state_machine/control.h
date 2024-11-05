@@ -18,7 +18,7 @@
 
 #define ACCELEROMETER_SIGNAL 1U
 #define GPS_SIGNAL           2U
-#define BRIGHTNESS_SIGNAL    4U
+//#define BRIGHTNESS_SIGNAL    4U No thread
 #define TEMP_HUM_SIGNAL      8U
 #define COLOR_SIGNAL         16U
 #define MOISTURE_SIGNAL      32U
@@ -29,7 +29,6 @@
 typedef enum{
     ACCELEROMETER,
     GPS,
-    BRIGHTNESS,
     TEMP_HUM,
     COLOR,
     MOISTURE
@@ -86,7 +85,6 @@ typedef struct{
     union{
         accelerometer_msg_t accelerometer_msg;
         gps_msg_t           gps_msg;
-        float               brightness_msg;
         temp_hum_msg_t      temp_hum_msg;
         color_msg_t         color_msg;
         float               moisture_msg;
