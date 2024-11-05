@@ -115,7 +115,6 @@ void state_machine_cycle(){
         case TEST:
             if(timeout_event){
                 timeout_event = false;
-                moisture_thread.flags_set(MOISTURE_SIGNAL);
                 accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
                 temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
                 color_thread.flags_set(COLOR_SIGNAL);
@@ -141,7 +140,6 @@ void state_machine_cycle(){
         case NORMAL:
             if(timeout_event){
                 timeout_event = false;
-                moisture_thread.flags_set(MOISTURE_SIGNAL);
                 accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
                 temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
                 color_thread.flags_set(COLOR_SIGNAL);
