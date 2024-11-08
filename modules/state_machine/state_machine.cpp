@@ -6,6 +6,7 @@
 #include "../color_sensor/color_sensor.h"
 #include "../temp_hum_sensor/temp_hum.h"
 #include "../accelerometer_sensor/accelerometer.h"
+#include "../led/led_module.h"
 #include "control.h"
 #include "i2c_interface.h"
 #include <cstdint>
@@ -107,12 +108,24 @@ static void read_sensors_data(){
     printf("COLOR SENSOR: Clear: %d Red: %d Green: %d Blue: %d -- Dominant color: ",color_clear,color_red,color_green,color_blue);
     if ((color_red>color_blue) && (color_red>color_green)){
         printf("red\n");
+        if (actual_state==TEST){
+            change_led_color(true, false, false);
+        }
     }else if ((color_blue>color_red) && (color_blue>color_green)) {
         printf("blue\n");
+        if (actual_state==TEST){
+            change_led_color(false, false, true);
+        }
     }else if ((color_green>color_red) && (color_green>color_blue)) {
         printf("green\n");
+        if (actual_state==TEST){
+            change_led_color(false, true, false);
+        }
     }else {
         printf("none\n");
+        if (actual_state==TEST){
+            change_led_color(false, false, false);
+        }
     }
     printf("ACCELEROMETERS: X_axis: %.1f m/s², Y_axis: %.1f m/s², Z_axis: %.1f m/s²\n",x_acc,y_acc,z_acc);
     printf("TEMP/HUM: Temperature:\t%.1f °C,\t\tRelative Humidity: %.1f%%\n\n\n",temp,humidity);
