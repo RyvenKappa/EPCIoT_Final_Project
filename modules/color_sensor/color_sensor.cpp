@@ -43,7 +43,7 @@ static void read_color_sensor_data(){
         i2c_bus.write(COLOR_SENSOR_SLAVE_ADDRESS<<1,cmd,2);
         ThisThread::sleep_for(3ms); //PON stabilization time
         //Wait for integration and reading
-        ThisThread::sleep_for(160ms); //Integration time and RGBC Init 2.4
+        ThisThread::sleep_for(160ms); //Integration time and RGBC Init 2.4+154=157.4
         color_led.write(0);
         cmd[0] = COLOR_SENSOR_CMD_MSK | COLOR_SENSOR_TYPE_AUTO_INCREMENT | COLOR_SENSOR_CDATAL;
         i2c_bus.write(COLOR_SENSOR_SLAVE_ADDRESS<<1,cmd,1);

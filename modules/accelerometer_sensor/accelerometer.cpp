@@ -63,7 +63,7 @@ void accelerometer_sensor_init(){
     //We wait for the software reset
     ThisThread::sleep_for(3ms);
 
-    //To configure Low noise, we need to be in standby
+    //To configure some things as Low noise, we need to be in standby
     //Standby
     cmd[0] = ACCELEROMETER_F_SETUP;
     cmd[1] = 0x00;
@@ -77,7 +77,7 @@ void accelerometer_sensor_init(){
     cmd[1] = 0x01;
     i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
     i2c_bus.unlock();
-    //Low noise is only 4G
+    //Low noise is only 4G, command:
     //cmd[1] = 0x05;
     //i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
 
