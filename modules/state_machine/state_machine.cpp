@@ -158,6 +158,7 @@ void state_machine_cycle(){
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
+                change_led_color(false, false, false);
                 printf("Test a Normal\n");
             }
         break;
