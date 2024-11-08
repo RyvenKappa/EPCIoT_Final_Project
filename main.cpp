@@ -1,4 +1,5 @@
 #include "mbed.h"
+#include "modules/led/led_module.h"
 #include "modules/button/switch.h"
 #include "modules/state_machine/state_machine.h"
 #include "modules/color_sensor/color_sensor.h"
@@ -8,6 +9,7 @@
 // main() runs in its own thread in the OS
 int main()
 {
+    led_init();
     button_init();
     state_machine_init();
     color_sensor_init();
