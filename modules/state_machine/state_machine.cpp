@@ -41,7 +41,6 @@ static float temp = 0.0;
 static float humidity = 0.0;
 
 
-
 static Timeout ticker;   //TODO change to lp
 static Timeout timeout; //TODO change to lp
 static volatile bool timeout_event = false;
@@ -94,7 +93,7 @@ static void read_sensors_data(){
                 color_red = ctrl_msg_t->color_msg.red;
                 color_green = ctrl_msg_t->color_msg.green;
                 color_blue = ctrl_msg_t->color_msg.blue;
-                //TODO maximo
+                
                 break;
         }
     }
@@ -103,9 +102,18 @@ static void read_sensors_data(){
     light = read_brightness_sensor_data();
     printf("MODE: %d\n",actual_state);
     printf("SOIL MOISTURE: %.1f%%\n",moisture);
-    printf("LIGHT: %.1f\n",light);
+    printf("LIGHT: %.1f%%\n",light);
     printf("GPS: \n");
-    printf("COLOR SENSOR: Clear: %d Red: %d Green: %d Blue: %d -- Dominant color: ??\n",color_clear,color_red,color_green,color_blue);
+    printf("COLOR SENSOR: Clear: %d Red: %d Green: %d Blue: %d -- Dominant color: ",color_clear,color_red,color_green,color_blue);
+    if ((color_red>color_blue) && (color_red>color_green)){
+        printf("red\n");
+    }else if ((color_blue>color_red) && (color_blue>color_green)) {
+        printf("blue\n");
+    }else if ((color_green>color_red) && (color_green>color_blue)) {
+        printf("green\n");
+    }else {
+        printf("none\n");
+    }
     printf("ACCELEROMETERS: X_axis: %.1f m/s², Y_axis: %.1f m/s², Z_axis: %.1f m/s²\n",x_acc,y_acc,z_acc);
     printf("TEMP/HUM: Temperature:\t%.1f °C,\t\tRelative Humidity: %.1f%%\n\n\n",temp,humidity);
 }
@@ -134,6 +142,9 @@ void state_machine_cycle(){
                 ticker.attach(ticker_isr,30000ms);
                 timeout.attach(timeout_isr, 29700ms);
                 board_leds.write(2);
+                while(!ctrl_in_queue.empty()){
+                    ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
+                }
                 printf("Test a Normal\n");
             }
         break;
@@ -157,6 +168,9 @@ void state_machine_cycle(){
                 ticker.detach();
                 timeout.detach();
                 board_leds.write(4);
+                while(!ctrl_in_queue.empty()){
+                    ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
+                }
                 printf("Normal a Advanced\n");
             }
         break;
@@ -167,6 +181,9 @@ void state_machine_cycle(){
                 ticker.attach(ticker_isr,2000ms);
                 timeout.attach(timeout_isr, 1700ms);
                 board_leds.write(1);
+                while(!ctrl_in_queue.empty()){
+                    ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
+                }
                 printf("Advanced a Test\n");
             }
         break;
