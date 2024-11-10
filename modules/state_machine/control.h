@@ -52,8 +52,9 @@ typedef struct{
     uint8_t time_m;
     uint8_t time_s;
     uint16_t altitude;
-    bool lat_n;
-    bool lng_w;
+    char altitude_c;
+    char lat_n;
+    char lng_w;
     float lat;
     float lng;
 }gps_msg_t;

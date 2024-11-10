@@ -6,6 +6,7 @@
 #include "../color_sensor/color_sensor.h"
 #include "../temp_hum_sensor/temp_hum.h"
 #include "../accelerometer_sensor/accelerometer.h"
+#include "../gps_sensor/gps.h"
 #include "../led/led_module.h"
 #include "control.h"
 #include "i2c_interface.h"
@@ -23,11 +24,11 @@ static float moisture = 0.0;
 static float light = 0.0;
 static int8_t sats = 0;
 static float lat = 0.0;
-static int8_t lat_n = 0;
+static char lat_n = 0;
 static float lng = 0.0;
-static int8_t lng_w = 0;
+static char lng_w = 0;
 static int16_t altitude = 0;
-static char alt_units = 'm';
+static char altitude_c = 'M';
 static int8_t time_h = 0;
 static int8_t time_m = 0;
 static int8_t time_s = 0;
@@ -84,6 +85,16 @@ static void read_sensors_data(){
                 z_acc = ctrl_msg_t->accelerometer_msg.z_acc;
                 break;
             case GPS:
+                time_h = ctrl_msg_t->gps_msg.time_h;
+                time_m = ctrl_msg_t->gps_msg.time_m;
+                time_s = ctrl_msg_t->gps_msg.time_s;
+                lat = ctrl_msg_t->gps_msg.lat;
+                lat_n = ctrl_msg_t->gps_msg.lat_n;
+                lng = ctrl_msg_t->gps_msg.lng;
+                lng_w = ctrl_msg_t->gps_msg.lng_w;
+                altitude = ctrl_msg_t->gps_msg.altitude;
+                altitude_c = ctrl_msg_t->gps_msg.altitude_c;
+                sats = ctrl_msg_t->gps_msg.sats;
                 break;
             case TEMP_HUM:
                 temp = ctrl_msg_t->temp_hum_msg.temp;
@@ -94,7 +105,6 @@ static void read_sensors_data(){
                 color_red = ctrl_msg_t->color_msg.red;
                 color_green = ctrl_msg_t->color_msg.green;
                 color_blue = ctrl_msg_t->color_msg.blue;
-                
                 break;
         }
     }
@@ -104,7 +114,7 @@ static void read_sensors_data(){
     printf("MODE: %d\n",actual_state);
     printf("SOIL MOISTURE: %.1f%%\n",moisture);
     printf("LIGHT: %.1f%%\n",light);
-    printf("GPS: \n");
+    printf("GPS: #Sats: %d Lat(UTC): %f %c Long(UTC): %f %c Altitude: %d %c GPS time: %d:%d:%d \n",sats,lat,lat_n,lng,lng_w,altitude,altitude_c,time_h,time_m,time_s);
     printf("COLOR SENSOR: Clear: %d Red: %d Green: %d Blue: %d -- Dominant color: ",color_clear,color_red,color_green,color_blue);
     if ((color_red>color_blue) && (color_red>color_green)){
         printf("red\n");
@@ -139,6 +149,7 @@ void state_machine_cycle(){
                 accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
                 temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
                 color_thread.flags_set(COLOR_SIGNAL);
+                gps_thread.flags_set(GPS_SIGNAL);
             }
             if(ticker_event){
                 ticker_event=false;
@@ -168,6 +179,7 @@ void state_machine_cycle(){
                 accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
                 temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
                 color_thread.flags_set(COLOR_SIGNAL);
+                gps_thread.flags_set(GPS_SIGNAL);
             }
             if(ticker_event){
                 ticker_event=false;
