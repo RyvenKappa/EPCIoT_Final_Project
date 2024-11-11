@@ -4,7 +4,7 @@
 #include "../accelerometer_sensor/accelerometer.h"
 #include "../color_sensor/color_sensor.h"
 
-Thread i2c_thread(osPriorityNormal,256,nullptr,"I2CThread");
+Thread i2c_thread(osPriorityNormal,512,nullptr,"I2CThread");
 
 /**
 * Static function to call for the readings of the i2c sensors.
