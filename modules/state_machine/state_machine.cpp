@@ -67,6 +67,9 @@ enum STATES{
     NORMAL,
     ADVANCED
 };
+
+static char states_names[3][10] = {"TEST","NORMAL","ADVANCED"}; 
+
 static STATES actual_state;
 
 void state_machine_init(){
@@ -75,6 +78,68 @@ void state_machine_init(){
     ticker.attach(ticker_isr,2000ms);
     timeout.attach(timeout_isr, 1700ms);
     i2c_bus.frequency(400000);
+}
+/**
+* Auxiliar function to print the standard message to the serial when no emergency.
+*/
+static void data_to_serial(){
+    printf("MODE: %s\n\n",states_names[actual_state]);
+    if (actual_state!=TEST){
+        //Temp limits
+        if ((temp<10.0) || (temp>35.0)){
+            printf("TEMPERATURE %.1f%% EXCEDING LIMITS, lower or raise the air temperature of the room!\n",temp);
+        }
+        //Humidity limits
+        if((humidity<25) || (humidity>75.0)){
+            printf("HUMIDITY %.1f%% EXCEDING LIMITS, increase or reduce the air flow of the room!\n",temp);
+        }
+        //Light limits, check at daytime, do the inverse for nighttime
+        if(light<25){
+            printf("LIGHT %.1f%% TOO LOW!\n",temp);
+        }
+        if (light>75){
+            printf("LIGHT %.1f%% TOO BRIGHT!\n",temp);
+        }
+        //Moisture limits TODO check with a plant
+        if(moisture<15){
+            printf("MOISTURE %.1f%% TOO LOW!\n",temp);
+        }
+        if (moisture>60){
+            printf("MOISTURE %.1f%% TOO BRIGHT!\n",temp);
+        }
+        //Color TODO LIMITS OF THE COLOR
+
+        //ACELERATION TODO CRASH
+        printf("\n");
+    }
+    //Print typical message
+    printf("\tSOIL MOISTURE: %.1f%%\n",moisture);
+    printf("\tLIGHT: %.1f%%\n",light);
+    printf("\tGPS: #Sats: %d Lat(UTC): %f %c Long(UTC): %f %c Altitude: %d %c GPS time: %d:%d:%d CET\tDay %d, Month %d, Year %d\n",sats,lat,lat_n,lng,lng_w,altitude,altitude_c,time_h,time_m,time_s,time_day,time_month,time_year);
+    printf("\tCOLOR SENSOR: Clear: %d Red: %d Green: %d Blue: %d -- Dominant color: ",color_clear,color_red,color_green,color_blue);
+    if ((color_red>color_blue) && (color_red>color_green)){
+        printf("red\n");
+        if (actual_state==TEST){
+            change_led_color(true, false, false);
+        }
+    }else if ((color_blue>color_red) && (color_blue>color_green)) {
+        printf("blue\n");
+        if (actual_state==TEST){
+            change_led_color(false, false, true);
+        }
+    }else if ((color_green>color_red) && (color_green>color_blue)) {
+        printf("green\n");
+        if (actual_state==TEST){
+            change_led_color(false, true, false);
+        }
+    }else {
+        printf("none\n");
+        if (actual_state==TEST){
+            change_led_color(false, false, false);
+        }
+    }
+    printf("\tACCELEROMETERS: X_axis: %.1f m/s², Y_axis: %.1f m/s², Z_axis: %.1f m/s²\n",x_acc,y_acc,z_acc);
+    printf("\tTEMP/HUM: Temperature:\t%.1f °C,\tRelative Humidity: %.1f%%\n\n\n",temp,humidity);
 }
 /**
 * Auxiliar function to read data
@@ -114,37 +179,8 @@ static void read_sensors_data(){
                 break;
         }
     }
-    //Non thread messages
     moisture = read_moisture_sensor_data();
     light = read_brightness_sensor_data();
-    printf("MODE: %d\n",actual_state);
-    printf("SOIL MOISTURE: %.1f%%\n",moisture);
-    printf("LIGHT: %.1f%%\n",light);
-    printf("GPS: #Sats: %d Lat(UTC): %f %c Long(UTC): %f %c Altitude: %d %c GPS time: %d:%d:%d CET\tDay %d, Month %d, Year %d\n",sats,lat,lat_n,lng,lng_w,altitude,altitude_c,time_h,time_m,time_s,time_day,time_month,time_year);
-    printf("COLOR SENSOR: Clear: %d Red: %d Green: %d Blue: %d -- Dominant color: ",color_clear,color_red,color_green,color_blue);
-    if ((color_red>color_blue) && (color_red>color_green)){
-        printf("red\n");
-        if (actual_state==TEST){
-            change_led_color(true, false, false);
-        }
-    }else if ((color_blue>color_red) && (color_blue>color_green)) {
-        printf("blue\n");
-        if (actual_state==TEST){
-            change_led_color(false, false, true);
-        }
-    }else if ((color_green>color_red) && (color_green>color_blue)) {
-        printf("green\n");
-        if (actual_state==TEST){
-            change_led_color(false, true, false);
-        }
-    }else {
-        printf("none\n");
-        if (actual_state==TEST){
-            change_led_color(false, false, false);
-        }
-    }
-    printf("ACCELEROMETERS: X_axis: %.1f m/s², Y_axis: %.1f m/s², Z_axis: %.1f m/s²\n",x_acc,y_acc,z_acc);
-    printf("TEMP/HUM: Temperature:\t%.1f °C,\tRelative Humidity: %.1f%%\n\n\n",temp,humidity);
 }
 
 void state_machine_cycle(){
@@ -158,6 +194,7 @@ void state_machine_cycle(){
             if(ticker_event){
                 ticker_event=false;
                 read_sensors_data();
+                data_to_serial();
                 ticker.attach(ticker_isr,2000ms);
                 timeout.attach(timeout_isr, 1700ms);
 
@@ -186,6 +223,7 @@ void state_machine_cycle(){
             if(ticker_event){
                 ticker_event=false;
                 read_sensors_data();
+                data_to_serial();
                 ticker.attach(ticker_isr,30000ms);
                 timeout.attach(timeout_isr, 29700ms);
 
