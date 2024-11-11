@@ -143,7 +143,7 @@ static void read_sensors_data(){
         }
     }
     printf("ACCELEROMETERS: X_axis: %.1f m/s², Y_axis: %.1f m/s², Z_axis: %.1f m/s²\n",x_acc,y_acc,z_acc);
-    printf("TEMP/HUM: Temperature:\t%.1f °C,\t\tRelative Humidity: %.1f%%\n\n\n",temp,humidity);
+    printf("TEMP/HUM: Temperature:\t%.1f °C,\tRelative Humidity: %.1f%%\n\n\n",temp,humidity);
 }
 
 void state_machine_cycle(){
