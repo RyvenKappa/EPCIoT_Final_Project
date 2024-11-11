@@ -51,6 +51,9 @@ typedef struct{
     uint8_t time_h;
     uint8_t time_m;
     uint8_t time_s;
+    uint8_t time_day;
+    uint8_t time_month;
+    uint16_t time_year;
     uint16_t altitude;
     char altitude_c;
     char lat_n;

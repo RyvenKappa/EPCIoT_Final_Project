@@ -32,6 +32,9 @@ static char altitude_c = 'M';
 static int8_t time_h = 0;
 static int8_t time_m = 0;
 static int8_t time_s = 0;
+static int8_t time_day = 0;
+static int8_t time_month = 0;
+static int16_t time_year = 0;
 static uint16_t color_clear = 0;
 static uint16_t color_red = 0;
 static uint16_t color_green = 0;
@@ -87,6 +90,9 @@ static void read_sensors_data(){
                 time_h = ctrl_msg_t->gps_msg.time_h;
                 time_m = ctrl_msg_t->gps_msg.time_m;
                 time_s = ctrl_msg_t->gps_msg.time_s;
+                time_day = ctrl_msg_t->gps_msg.time_day;
+                time_month = ctrl_msg_t->gps_msg.time_month;
+                time_year = ctrl_msg_t->gps_msg.time_year;
                 lat = ctrl_msg_t->gps_msg.lat;
                 lat_n = ctrl_msg_t->gps_msg.lat_n;
                 lng = ctrl_msg_t->gps_msg.lng;
@@ -113,7 +119,7 @@ static void read_sensors_data(){
     printf("MODE: %d\n",actual_state);
     printf("SOIL MOISTURE: %.1f%%\n",moisture);
     printf("LIGHT: %.1f%%\n",light);
-    printf("GPS: #Sats: %d Lat(UTC): %f %c Long(UTC): %f %c Altitude: %d %c GPS time: %d:%d:%d \n",sats,lat,lat_n,lng,lng_w,altitude,altitude_c,time_h,time_m,time_s);
+    printf("GPS: #Sats: %d Lat(UTC): %f %c Long(UTC): %f %c Altitude: %d %c GPS time: %d:%d:%d   Day%d, Month%d, Year%d\n",sats,lat,lat_n,lng,lng_w,altitude,altitude_c,time_h,time_m,time_s,time_day,time_month,time_year);
     printf("COLOR SENSOR: Clear: %d Red: %d Green: %d Blue: %d -- Dominant color: ",color_clear,color_red,color_green,color_blue);
     if ((color_red>color_blue) && (color_red>color_green)){
         printf("red\n");
