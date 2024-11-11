@@ -42,9 +42,8 @@ static float z_acc = 0.0;
 static float temp = 0.0;
 static float humidity = 0.0;
 
-
-static Timeout ticker;   //TODO change to lp
-static Timeout timeout; //TODO change to lp
+static LowPowerTicker ticker;
+static LowPowerTimeout timeout;
 static volatile bool timeout_event = false;
 static volatile bool ticker_event = false;
 /**

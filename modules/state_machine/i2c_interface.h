@@ -4,7 +4,7 @@
 /**
 * @file interfaces.h
 *
-* @brief I2C and UART control module.
+* @brief I2C definition header file.
 *
 * @author Diego Aceituno Seoane
 *
