@@ -26,17 +26,17 @@ var NAVTREE =
 [
   [ "EPCIoT_Final_Project", "index.html", [
     [ "Final Project repository for the Embedded Platforms and Communications for IoT", "md_README.html", null ],
-    [ "Estructuras de datos", "annotated.html", [
-      [ "Estructuras de datos", "annotated.html", "annotated_dup" ],
-      [ "Índice de estructuras de datos", "classes.html", null ]
+    [ "Data Structures", "annotated.html", [
+      [ "Data Structures", "annotated.html", "annotated_dup" ],
+      [ "Data Structure Index", "classes.html", null ]
     ] ],
-    [ "Archivos", "files.html", [
-      [ "Lista de archivos", "files.html", "files_dup" ],
-      [ "Globales", "globals.html", [
-        [ "Todos", "globals.html", null ],
-        [ "Funciones", "globals_func.html", null ],
+    [ "Files", "files.html", [
+      [ "File List", "files.html", "files_dup" ],
+      [ "Globals", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
-        [ "Enumeraciones", "globals_enum.html", null ]
+        [ "Enumerations", "globals_enum.html", null ]
       ] ]
     ] ]
   ] ]
@@ -47,5 +47,5 @@ var NAVTREEINDEX =
 "accelerometer_8h.html"
 ];
 
-var SYNCONMSG = 'pulsar para deshabilitar sincronización';
-var SYNCOFFMSG = 'pulsar para habilitar sincronización';
+var SYNCONMSG = 'click to disable panel synchronisation';
+var SYNCOFFMSG = 'click to enable panel synchronisation';

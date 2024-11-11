@@ -23,15 +23,15 @@
  @licend  The above is the entire license notice for the JavaScript code in this file
 */
 var menudata={children:[
-{text:"Página principal",url:"index.html"},
-{text:"Páginas relacionadas",url:"pages.html"},
-{text:"Estructuras de datos",url:"annotated.html",children:[
-{text:"Estructuras de datos",url:"annotated.html"},
-{text:"Índice de estructuras de datos",url:"classes.html"}]},
-{text:"Archivos",url:"files.html",children:[
-{text:"Lista de archivos",url:"files.html"},
-{text:"Globales",url:"globals.html",children:[
-{text:"Todos",url:"globals.html"},
-{text:"Funciones",url:"globals_func.html"},
+{text:"Main Page",url:"index.html"},
+{text:"Related Pages",url:"pages.html"},
+{text:"Data Structures",url:"annotated.html",children:[
+{text:"Data Structures",url:"annotated.html"},
+{text:"Data Structure Index",url:"classes.html"}]},
+{text:"Files",url:"files.html",children:[
+{text:"File List",url:"files.html"},
+{text:"Globals",url:"globals.html",children:[
+{text:"All",url:"globals.html"},
+{text:"Functions",url:"globals_func.html"},
 {text:"Variables",url:"globals_vars.html"},
-{text:"Enumeraciones",url:"globals_enum.html"}]}]}]}
+{text:"Enumerations",url:"globals_enum.html"}]}]}]}
