@@ -1,11 +1,10 @@
 #include "mbed.h"
 #include "accelerometer.h"
 #include "../state_machine/control.h"
-#include "../state_machine/i2c_interface.h"
+#include "../i2c/i2c_interface.h"
 #include <cstdint>
 #include "stdio.h"
 
-Thread accelerometer_thread(osPriorityNormal,256,nullptr,"AccThread");
 static ctrl_msg ctrl_msg_t;
 
 static char cmd[2];
@@ -30,33 +29,27 @@ static void read_acc_x_y_z(){
 /**
 * Static function for the thread loop
 */
-static void read_accelerometer_data(){
+void accelerometer_sensor_read(){
     ctrl_msg_t.type=ACCELEROMETER;
     ctrl_msg_t.accelerometer_msg.x_acc = 0;
     ctrl_msg_t.accelerometer_msg.y_acc = 0;
     ctrl_msg_t.accelerometer_msg.z_acc = 0;
-    while (true) {
-        ThisThread::flags_wait_all(ACCELEROMETER_SIGNAL);
-        //Set Active mode into the sensor
-        cmd[0] = ACCELEROMETER_CTRL_REG1;
-        cmd[1] = 0x01;//Active
-        i2c_bus.lock();
-        i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
-        ThisThread::sleep_for(5ms); //Turn-on time from standby
+    //Set Active mode into the sensor
+    cmd[0] = ACCELEROMETER_CTRL_REG1;
+    cmd[1] = 0x01;//Active
+    i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
+    ThisThread::sleep_for(5ms); //Turn-on time from standby
 
-        read_acc_x_y_z();
-        //Set Standby mode into the sensor
-        cmd[0] = ACCELEROMETER_CTRL_REG1;
-        cmd[1] = 0x00;//Standby
-        i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
-        i2c_bus.unlock();
-        ctrl_in_queue.try_put_for(Kernel::wait_for_u32_forever, &ctrl_msg_t);
-    }
+    read_acc_x_y_z();
+    //Set Standby mode into the sensor
+    cmd[0] = ACCELEROMETER_CTRL_REG1;
+    cmd[1] = 0x00;//Standby
+    i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
+    ctrl_in_queue.try_put_for(Kernel::wait_for_u32_forever, &ctrl_msg_t);
 }
 
 void accelerometer_sensor_init(){
     //Reset of the sensor
-    i2c_bus.lock();
     cmd[0] = ACCELEROMETER_CTRL_REG2;
     cmd[1] = 0x40;
     i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
@@ -76,11 +69,7 @@ void accelerometer_sensor_init(){
     cmd[0] = ACCELEROMETER_CTRL_REG1;
     cmd[1] = 0x01;
     i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
-    i2c_bus.unlock();
     //Low noise is only 4G, command:
     //cmd[1] = 0x05;
     //i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
-
-    
-    accelerometer_thread.start(&read_accelerometer_data);
 }
