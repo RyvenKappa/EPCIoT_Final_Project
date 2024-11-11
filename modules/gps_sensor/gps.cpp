@@ -34,7 +34,7 @@ static uint32_t date = 0;
 static void parse_gps_msg(){
     if ((strncmp(buffer, "$GPGGA",6)==0) && (!found_gps_msg)){
         sscanf(buffer, "$GPGGA,%f,%f,%c,%f,%c,%hhu,%hhu,%f,%f,%c", &time_stamp,&latitude,&latitude_c,&longitude,&longitude_c,&quality,&sats,&hdop,&altitude,&altitude_c);
-        ctrl_msg_t.gps_msg.time_h = (uint32_t)time_stamp/10000;
+        ctrl_msg_t.gps_msg.time_h = (uint32_t)time_stamp/10000 + 1;
         ctrl_msg_t.gps_msg.time_m = (((uint32_t)time_stamp/100) % 100);
         ctrl_msg_t.gps_msg.time_s = ((uint32_t)time_stamp%100);
         ctrl_msg_t.gps_msg.altitude = altitude;
