@@ -150,12 +150,10 @@ $(function(){initNavTree('temp__hum_8h_source.html',''); initResizable(true); })
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#define TH_SENSOR_WRITE_HEATER_REGISTER 0x51</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define TH_SENSOR_READ_HEATER_REGISTER 0x11</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">extern</span> Thread <a class="code hl_variable" href="temp__hum_8h.html#a734f3902e8229cf14cc0897d2e716071">temp_hum_thread</a>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code hl_function" href="temp__hum_8h.html#a398f766499bda81d58fdfdc99e4f2432">temp_hum_sensor_read</a>();</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code hl_function" href="temp__hum_8h.html#aed8baf286f3b0df576df4154fb0ccd49">temp_hum_sensor_init</a>();</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="atemp__hum_8h_html_a734f3902e8229cf14cc0897d2e716071"><div class="ttname"><a href="temp__hum_8h.html#a734f3902e8229cf14cc0897d2e716071">temp_hum_thread</a></div><div class="ttdeci">Thread temp_hum_thread</div><div class="ttdoc">Measurement thread for the temperature and humidity sensor.</div></div>
-<div class="ttc" id="atemp__hum_8h_html_aed8baf286f3b0df576df4154fb0ccd49"><div class="ttname"><a href="temp__hum_8h.html#aed8baf286f3b0df576df4154fb0ccd49">temp_hum_sensor_init</a></div><div class="ttdeci">void temp_hum_sensor_init()</div><div class="ttdoc">Inicialization of the temperature and humidity thread.</div><div class="ttdef"><b>Definition</b> temp_hum.cpp:51</div></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="atemp__hum_8h_html_a398f766499bda81d58fdfdc99e4f2432"><div class="ttname"><a href="temp__hum_8h.html#a398f766499bda81d58fdfdc99e4f2432">temp_hum_sensor_read</a></div><div class="ttdeci">void temp_hum_sensor_read()</div><div class="ttdoc">Temp &amp; Hum sensor reading.</div><div class="ttdef"><b>Definition</b> temp_hum.cpp:36</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
