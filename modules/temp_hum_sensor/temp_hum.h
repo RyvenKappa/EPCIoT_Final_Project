@@ -26,12 +26,8 @@
 #define TH_SENSOR_READ_HEATER_REGISTER 0x11
 
 /**
-* @brief Measurement thread for the temperature and humidity sensor.
+* @brief Temp & Hum sensor reading
 */
-extern Thread temp_hum_thread;
+extern void temp_hum_sensor_read();
 
-/**
-* @brief Inicialization of the temperature and humidity thread.
-*/
-extern void temp_hum_sensor_init();
 #endif

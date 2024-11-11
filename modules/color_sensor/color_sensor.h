@@ -45,12 +45,12 @@
 #define COLOR_SENSOR_BDATAH 0x1B
 
 /**
-* @brief Measurement thread for the color sensor.
+* @brief Reading of the color data.
 */
-extern Thread color_thread;
+extern void  color_sensor_read();
 
 /**
-* @brief Inicialization of the color thread.
+* @brief Inicialization of the color sensor.
 */
 extern void  color_sensor_init();
 

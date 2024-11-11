@@ -8,8 +8,9 @@
 #include "../accelerometer_sensor/accelerometer.h"
 #include "../gps_sensor/gps.h"
 #include "../led/led_module.h"
+#include "../i2c/i2c_interface.h"
 #include "control.h"
-#include "i2c_interface.h"
+
 #include <cstdint>
 #include <cstdio>
 
@@ -151,9 +152,7 @@ void state_machine_cycle(){
         case TEST:
             if(timeout_event){
                 timeout_event = false;
-                accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
-                temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
-                color_thread.flags_set(COLOR_SIGNAL);
+                i2c_thread.flags_set(I2C_SIGNAL);
                 gps_thread.flags_set(GPS_SIGNAL);
             }
             if(ticker_event){
@@ -181,9 +180,7 @@ void state_machine_cycle(){
         case NORMAL:
             if(timeout_event){
                 timeout_event = false;
-                accelerometer_thread.flags_set(ACCELEROMETER_SIGNAL);
-                temp_hum_thread.flags_set(TEMP_HUM_SIGNAL);
-                color_thread.flags_set(COLOR_SIGNAL);
+                i2c_thread.flags_set(I2C_SIGNAL);
                 gps_thread.flags_set(GPS_SIGNAL);
             }
             if(ticker_event){

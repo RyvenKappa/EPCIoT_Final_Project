@@ -16,12 +16,8 @@
 
 #define QUEUE_SIZE 10
 
-#define ACCELEROMETER_SIGNAL 1U
-#define GPS_SIGNAL           2U
-//#define BRIGHTNESS_SIGNAL    4U No thread
-#define TEMP_HUM_SIGNAL      8U
-#define COLOR_SIGNAL         16U
-//#define MOISTURE_SIGNAL      32U
+#define I2C_SIGNAL 1U
+#define GPS_SIGNAL 2U
 
 /**
 * @brief Enumeration for the entering msg to the main thread.

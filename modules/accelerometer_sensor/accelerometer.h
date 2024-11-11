@@ -59,12 +59,12 @@
 #define ACCELEROMETER_OFF_Z 0x31
 
 /**
-* @brief Measurement thread for the accelerometer sensor.
+* @brief Reading of the accelerometer data
 */
-extern Thread accelerometer_thread;
+extern void accelerometer_sensor_read();
 
 /**
-* @brief Inicialization of the accelerometer thread
+* @brief Inicialization of the accelerometer sensor
 */
 extern void accelerometer_sensor_init();
 #endif
