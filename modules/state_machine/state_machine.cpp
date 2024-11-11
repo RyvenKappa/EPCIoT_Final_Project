@@ -120,7 +120,7 @@ static void read_sensors_data(){
     printf("MODE: %d\n",actual_state);
     printf("SOIL MOISTURE: %.1f%%\n",moisture);
     printf("LIGHT: %.1f%%\n",light);
-    printf("GPS: #Sats: %d Lat(UTC): %f %c Long(UTC): %f %c Altitude: %d %c GPS time: %d:%d:%d   Day%d, Month%d, Year%d\n",sats,lat,lat_n,lng,lng_w,altitude,altitude_c,time_h,time_m,time_s,time_day,time_month,time_year);
+    printf("GPS: #Sats: %d Lat(UTC): %f %c Long(UTC): %f %c Altitude: %d %c GPS time: %d:%d:%d CET\tDay %d, Month %d, Year %d\n",sats,lat,lat_n,lng,lng_w,altitude,altitude_c,time_h,time_m,time_s,time_day,time_month,time_year);
     printf("COLOR SENSOR: Clear: %d Red: %d Green: %d Blue: %d -- Dominant color: ",color_clear,color_red,color_green,color_blue);
     if ((color_red>color_blue) && (color_red>color_green)){
         printf("red\n");
