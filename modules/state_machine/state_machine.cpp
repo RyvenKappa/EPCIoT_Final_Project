@@ -114,28 +114,7 @@ void state_machine_init(){
     i2c_bus.frequency(400000);
 }
 
-/**
-* Auxiliar function to print the mean, min and max values of the variables to the serial.
-*/
-static void hour_data_to_serial(){
-    printf("1 Hour has passed, this is the data analysis:\n");
-    printf("\tTemperature:   min:%.1f°C, max:%.1f°C, mean:%.1f°C.\n",min_temp,max_temp,(temp_adder/hour_limit_counter));
-    printf("\tHumidity:   min:%.1f%%, max:%.1f%%, mean:%.1f%%.\n",min_humidity,max_humidity,(humidity_adder/hour_limit_counter));
-    printf("\tLight:   min:%.1f%%, max:%.1f%%, mean:%.1f%%.\n",min_light,max_light,(light_adder/hour_limit_counter));
-    printf("\tMoisture:   min:%.1f%% max:%.1f%%, mean:%.1f%%.\n",min_moisture,max_moisture,(moisture_adder/hour_limit_counter));
-    printf("\tAccelerometer_X:   min:%.1fm/s², max:%.1fm/s².\n",min_x,max_x);
-    printf("\tAccelerometer_Y:   min:%.1fm/s², max:%.1fm/s².\n",min_y,max_y);
-    printf("\tAccelerometer_Z:   min:%.1fm/s², max:%.1fm/s².\n",min_z,max_z);
-    //Most dominant color
-    if ((red_ocurrences>green_ocurrences) && (red_ocurrences>blue_ocurrences)){
-        printf("\tMost dominant color: red\n");
-    }else if ((green_ocurrences>red_ocurrences) && (green_ocurrences>blue_ocurrences)) {
-        printf("\tMost dominant color: green\n");
-    }else if ((blue_ocurrences>red_ocurrences) && (blue_ocurrences>green_ocurrences)) {
-        printf("\tMost dominant color: blue\n");
-    }else{
-        printf("\tMost dominant color: none\n");
-    }
+static void reset_temp_data(){
     hour_limit_counter=0;
     min_temp = 0;
     max_temp = 0;
@@ -159,6 +138,30 @@ static void hour_data_to_serial(){
     green_ocurrences = 0;
     blue_ocurrences = 0;
     started = false;
+}
+/**
+* Auxiliar function to print the mean, min and max values of the variables to the serial.
+*/
+static void hour_data_to_serial(){
+    printf("1 Hour has passed, this is the data analysis:\n");
+    printf("\tTemperature:   min:%.1f°C, max:%.1f°C, mean:%.1f°C.\n",min_temp,max_temp,(temp_adder/hour_limit_counter));
+    printf("\tHumidity:   min:%.1f%%, max:%.1f%%, mean:%.1f%%.\n",min_humidity,max_humidity,(humidity_adder/hour_limit_counter));
+    printf("\tLight:   min:%.1f%%, max:%.1f%%, mean:%.1f%%.\n",min_light,max_light,(light_adder/hour_limit_counter));
+    printf("\tMoisture:   min:%.1f%% max:%.1f%%, mean:%.1f%%.\n",min_moisture,max_moisture,(moisture_adder/hour_limit_counter));
+    printf("\tAccelerometer_X:   min:%.1fm/s², max:%.1fm/s².\n",min_x,max_x);
+    printf("\tAccelerometer_Y:   min:%.1fm/s², max:%.1fm/s².\n",min_y,max_y);
+    printf("\tAccelerometer_Z:   min:%.1fm/s², max:%.1fm/s².\n",min_z,max_z);
+    //Most dominant color
+    if ((red_ocurrences>green_ocurrences) && (red_ocurrences>blue_ocurrences)){
+        printf("\tMost dominant color: red\n");
+    }else if ((green_ocurrences>red_ocurrences) && (green_ocurrences>blue_ocurrences)) {
+        printf("\tMost dominant color: green\n");
+    }else if ((blue_ocurrences>red_ocurrences) && (blue_ocurrences>green_ocurrences)) {
+        printf("\tMost dominant color: blue\n");
+    }else{
+        printf("\tMost dominant color: none\n");
+    }
+    reset_temp_data();
 }
 
 /**
@@ -370,14 +373,34 @@ void state_machine_cycle(){
                 actual_state = ADVANCED;
                 ticker.detach();
                 timeout.detach();
+                ticker.attach(ticker_isr,30000ms);
+                timeout.attach(timeout_isr, 29700ms);
                 board_leds.write(4);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
+                reset_temp_data();
                 printf("Normal a Advanced\n");
             }
         break;
         case ADVANCED:
+            if(timeout_event){
+                timeout_event = false;
+                i2c_thread.flags_set(I2C_SIGNAL);
+                gps_thread.flags_set(GPS_SIGNAL);
+            }
+            if(ticker_event){
+                ticker_event=false;
+                read_sensors_data();
+                hour_limit_counter += 1;
+                data_to_serial();
+                if (hour_limit_counter==120) {
+                    hour_data_to_serial();
+                }
+                ticker.attach(ticker_isr,30000ms);
+                timeout.attach(timeout_isr, 29700ms);
+
+            }
             if (button_pressed_msg) {
                 button_pressed_msg = 0;
                 actual_state = TEST;
@@ -387,9 +410,10 @@ void state_machine_cycle(){
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
-                //TODO RESET HOUR_COUNTER AND ALL THE MIN_MAX_MEAN VALUES
+                reset_temp_data();
                 printf("Advanced a Test\n");
             }
+        //TODO meter la llamada a sleep
         break;
     }
 }
