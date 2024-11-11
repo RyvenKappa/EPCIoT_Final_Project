@@ -58,6 +58,10 @@
 #define ACCELEROMETER_OFF_Y 0x30
 #define ACCELEROMETER_OFF_Z 0x31
 
+#define ACCELEROMETER_8G 1024.0
+#define ACCELEROMETER_4G 2048.0
+#define ACCELEROMETER_2G 4096.0
+
 /**
 * @brief Reading of the accelerometer data
 */
