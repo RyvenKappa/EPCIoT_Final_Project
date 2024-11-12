@@ -21,9 +21,9 @@ static void read_acc_x_y_z(){
     int16_t x_acc = (int16_t(data[0]<<8 | data[1]))>>2;
     int16_t y_acc = (int16_t(data[2]<<8 | data[3]))>>2;
     int16_t z_acc = (int16_t(data[4]<<8 | data[5]))>>2;
-    ctrl_msg_t.accelerometer_msg.x_acc = ((float)x_acc)/ACCELEROMETER_8G;
-    ctrl_msg_t.accelerometer_msg.y_acc = ((float)y_acc)/ACCELEROMETER_8G;
-    ctrl_msg_t.accelerometer_msg.z_acc = ((float)z_acc)/ACCELEROMETER_8G;
+    ctrl_msg_t.accelerometer_msg.x_acc = ((float)x_acc)*9.80665/ACCELEROMETER_8G;
+    ctrl_msg_t.accelerometer_msg.y_acc = ((float)y_acc)*9.80665/ACCELEROMETER_8G;
+    ctrl_msg_t.accelerometer_msg.z_acc = ((float)z_acc)*9.80665/ACCELEROMETER_8G;
 }
 
 /**
