@@ -12,6 +12,7 @@ volatile int color_sensor_message = false;
 
 /**
 * ISR for the color sensor interruption
+* It will always be saved in order to be cleaned when entering advanced mode
 */
 void color_sensor_handler(){
     color_sensor_message = true;
