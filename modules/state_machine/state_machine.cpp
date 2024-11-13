@@ -80,20 +80,6 @@ static uint8_t red_ocurrences = 0;
 static uint8_t green_ocurrences = 0;
 static uint8_t blue_ocurrences = 0;
 
-static LowPowerTicker ticker;
-static LowPowerTimeout timeout;
-static volatile bool timeout_event = false;
-static volatile bool ticker_event = false;
-/**
-* Ticker ISR
-*/
-void ticker_isr(){
-    ticker_event = true;
-}
-void timeout_isr(){
-    timeout_event = true;
-}
-
 
 //****STATE MACHINE*******************
 enum STATES{
@@ -106,11 +92,31 @@ static char states_names[3][10] = {"TEST","NORMAL","ADVANCED"};
 
 static STATES actual_state;
 
+static LowPowerTicker ticker;
+static LowPowerTimeout timeout;
+static volatile bool timeout_event = false;
+static volatile bool ticker_event = false;
+
+static bool sleep_ready = true;
+
+/**
+* Ticker ISR
+*/
+void ticker_isr(){
+    ticker_event = true;
+}
+void timeout_isr(){
+    timeout_event = true;
+    if (actual_state==ADVANCED) {
+        SCB->SCR &= ~(SCB_SCR_SLEEPONEXIT_Msk);
+    }
+}
+
 void state_machine_init(){
     actual_state = TEST;
     board_leds.write(1);
     ticker.attach(ticker_isr,2000ms);
-    timeout.attach(timeout_isr, 1700ms);
+    timeout.attach(timeout_isr, 1600ms);
     i2c_bus.frequency(400000);
 }
 
@@ -320,6 +326,24 @@ static void read_sensors_data(){
     }
 }
 
+
+/**
+* Inline(every call pastes the same code) function to control the sleep of the MCU
+*/
+inline void deep_sleep_stop(){
+    if(sleep_ready){
+        /*Prepare the entering to sleep mode*/
+        PWR->CR |= PWR_CR_CWUF_Msk; //Clear the wake up flag after 2 clock cycles.
+        PWR->CR &= ~( PWR_CR_PDDS); //Enter stop mode when the cpu enters deepsleep
+
+        SCB->SCR &= ~(SCB_SCR_SLEEPDEEP_Msk); //Allow deepsleep
+        SCB->SCR |= SCB_SCR_SLEEPONEXIT_Msk;  //Reenter low power after ISR
+    }
+    __WFI();
+    
+}
+
+
 void state_machine_cycle(){
     switch (actual_state) {
         case TEST:
@@ -333,7 +357,7 @@ void state_machine_cycle(){
                 read_sensors_data();
                 data_to_serial();
                 ticker.attach(ticker_isr,2000ms);
-                timeout.attach(timeout_isr, 1700ms);
+                timeout.attach(timeout_isr, 1600ms);
             }
             if(button_pressed_msg){
                 button_pressed_msg = 0;
@@ -341,7 +365,7 @@ void state_machine_cycle(){
                 ticker.detach();
                 timeout.detach();
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29700ms);
+                timeout.attach(timeout_isr, 29600ms);
                 board_leds.write(2);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
@@ -365,7 +389,7 @@ void state_machine_cycle(){
                     hour_data_to_serial();
                 }
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29700ms);
+                timeout.attach(timeout_isr, 29600ms);
 
             }
             if (button_pressed_msg) {
@@ -374,7 +398,7 @@ void state_machine_cycle(){
                 ticker.detach();
                 timeout.detach();
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29700ms);
+                timeout.attach(timeout_isr, 29600ms);
                 board_leds.write(4);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
@@ -386,6 +410,10 @@ void state_machine_cycle(){
         case ADVANCED:
             if(timeout_event){
                 timeout_event = false;
+                //Stop mode configuration is taken out
+                PWR->CR &= ~(PWR_CR_CWUF_Msk);
+                PWR->CR |= PWR_CR_PDDS;
+                sleep_ready = false;
                 i2c_thread.flags_set(I2C_SIGNAL);
                 gps_thread.flags_set(GPS_SIGNAL);
             }
@@ -398,14 +426,14 @@ void state_machine_cycle(){
                     hour_data_to_serial();
                 }
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29700ms);
-
+                timeout.attach(timeout_isr, 29600ms);
+                sleep_ready = true;
             }
             if (button_pressed_msg) {
                 button_pressed_msg = 0;
                 actual_state = TEST;
                 ticker.attach(ticker_isr,2000ms);
-                timeout.attach(timeout_isr, 1700ms);
+                timeout.attach(timeout_isr, 1600ms);
                 board_leds.write(1);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
@@ -413,7 +441,7 @@ void state_machine_cycle(){
                 reset_temp_data();
                 printf("Advanced a Test\n");
             }
-        //TODO meter la llamada a sleep
+            deep_sleep_stop();
         break;
     }
 }
