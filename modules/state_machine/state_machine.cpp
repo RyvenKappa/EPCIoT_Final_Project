@@ -174,38 +174,47 @@ static void hour_data_to_serial(){
 * Auxiliar function to print the standard message to the serial when no emergency.
 */
 static void data_to_serial(){
-    printf("MODE: %s\n\n",states_names[actual_state]);
-    if (actual_state!=TEST){
+    printf("MODE: %s\n\n",states_names[actual_state]);;
+    if (actual_state!=TEST){   
+        change_led_color(false, false, false);
         //Temp limits
+        //Red if problem
         if ((temp<10.0) || (temp>35.0)){
             printf("TEMPERATURE %.1f°C EXCEDING LIMITS, lower or raise the air temperature of the room!\n",temp);
-            //TODO LED
+            change_led_color(true, false, false);
         }
         //Humidity limits
+        //Blue if problem
         if((humidity<25) || (humidity>75.0)){
             printf("HUMIDITY %.1f%% EXCEDING LIMITS, increase or reduce the air flow of the room!\n",humidity);
-            //TODO LED
+            change_led_color(false, false, true);
         }
-        //Light limits, check at daytime, do the inverse for nighttime
-        if(light<25){
+        //Light limits
+        //Yellow if problem with light.
+        if(light<10){
             printf("LIGHT %.1f%% TOO LOW!\n",light);
-            //TODO LED
+            change_led_color(true, true, false);
         }
-        if (light>75){
+        if (light>80){
             printf("LIGHT %.1f%% TOO BRIGHT!\n",light);
-            //TODO LED
+            change_led_color(true, true, false);
         }
-        //Moisture limits TODO check with a plant
-        if(moisture<15){
+        //Moisture limits
+        //Purple if problem with moisture.
+        if(moisture<5){
             printf("MOISTURE %.1f%% TOO LOW!\n",moisture);
-            //TODO LED
+            change_led_color(true, false, true);
         }
-        if (moisture>60){
-            printf("MOISTURE %.1f%% TOO BRIGHT!\n",moisture);
-            //TODO LED
+        if (moisture>85){
+            printf("MOISTURE %.1f%% TOO HIGH!\n",moisture);
+            change_led_color(true, false, true);
         }
-        //Color TODO LIMITS OF THE COLOR
-
+        //Color problems
+        //Whie if problem with color sensor, detecting more blue.
+        if((color_blue>color_red) && (color_blue>color_green)){
+            printf("COLOR IS BLUE, CHECK COLOR SENSOR!\n");
+            change_led_color(true, true, true);
+        }
         //ACELERATION TODO CRASH
         printf("\n");
     }
