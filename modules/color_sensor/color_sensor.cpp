@@ -6,6 +6,16 @@
 #include <stdint.h>
 
 DigitalOut color_led(COLOR_SENSOR_LED);
+InterruptIn color_int(COLOR_SENSOR_INT);
+
+volatile int color_sensor_message = false;
+
+/**
+* ISR for the color sensor interruption
+*/
+void color_sensor_handler(){
+    color_sensor_message = true;
+}
 
 static ctrl_msg ctrl_msg_t;
 
@@ -55,6 +65,7 @@ void color_sensor_read(){
 
 
 void color_sensor_init(){
+    color_int.rise(&color_sensor_handler);
     cmd[0] = COLOR_SENSOR_CMD_MSK | COLOR_SENSOR_TYPE_AUTO_INCREMENT | COLOR_SENSOR_ENABLE;
     cmd[1] = 0x02; //Wait dissabled, interruptions dissabled and AEN deactivated
     i2c_bus.write(COLOR_SENSOR_SLAVE_ADDRESS<<1,cmd,2);

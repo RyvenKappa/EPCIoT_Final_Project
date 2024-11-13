@@ -16,6 +16,8 @@
 
 #define COLOR_SENSOR_LED PA_9
 
+#define COLOR_SENSOR_INT PA_11
+extern volatile int color_sensor_message;
 
 #define COLOR_SENSOR_SLAVE_ADDRESS 0x29
 
