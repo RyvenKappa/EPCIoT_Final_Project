@@ -16,6 +16,7 @@ volatile int color_sensor_message = false;
 */
 void color_sensor_handler(){
     color_sensor_message = true;
+    SCB->SCR &= ~(SCB_SCR_SLEEPONEXIT_Msk);
 }
 
 static ctrl_msg ctrl_msg_t;
