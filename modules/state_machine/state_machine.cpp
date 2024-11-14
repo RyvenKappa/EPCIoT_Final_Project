@@ -107,9 +107,7 @@ void ticker_isr(){
 }
 void timeout_isr(){
     timeout_event = true;
-    if (actual_state==ADVANCED) {
-        SCB->SCR &= ~(SCB_SCR_SLEEPONEXIT_Msk);
-    }
+    SCB->SCR &= ~(SCB_SCR_SLEEPONEXIT_Msk);
 }
 
 void state_machine_init(){
@@ -342,14 +340,12 @@ static void read_sensors_data(){
 inline void deep_sleep_stop(){
     if(sleep_ready){
         /*Prepare the entering to sleep mode*/
-        PWR->CR |= PWR_CR_CWUF_Msk; //Clear the wake up flag after 2 clock cycles.
-        PWR->CR &= ~( PWR_CR_PDDS); //Enter stop mode when the cpu enters deepsleep
-
-        SCB->SCR &= ~(SCB_SCR_SLEEPDEEP_Msk); //Allow deepsleep
-        SCB->SCR |= SCB_SCR_SLEEPONEXIT_Msk;  //Reenter low power after ISR
+        FLASH->ACR &= ~(FLASH_ACR_SLEEP_PD);
+        PWR->CR |= PWR_CR_LPSDSR_Msk;
+        SCB->SCR &= ~(SCB_SCR_SLEEPDEEP_Msk);
+        SCB->SCR |= SCB_SCR_SLEEPONEXIT_Msk;
     }
     __WFI();
-    
 }
 
 
@@ -376,11 +372,12 @@ void state_machine_cycle(){
                 ticker.attach(ticker_isr,30000ms);
                 timeout.attach(timeout_isr, 29600ms);
                 board_leds.write(2);
+                change_led_color(false, false, false);
+                printf("Test a Normal\n");
+                ThisThread::sleep_for(400ms);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
-                change_led_color(false, false, false);
-                printf("Test a Normal\n");
             }
         break;
         case NORMAL:
@@ -409,19 +406,18 @@ void state_machine_cycle(){
                 ticker.attach(ticker_isr,30000ms);
                 timeout.attach(timeout_isr, 29600ms);
                 board_leds.write(4);
+                reset_temp_data();
+                sleep_ready = true;
+                printf("Normal a Advanced\n");
+                ThisThread::sleep_for(400ms);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
-                reset_temp_data();
-                printf("Normal a Advanced\n");
             }
         break;
         case ADVANCED:
             if(timeout_event){
                 timeout_event = false;
-                //Stop mode configuration is taken out
-                PWR->CR &= ~(PWR_CR_CWUF_Msk);
-                PWR->CR |= PWR_CR_PDDS;
                 sleep_ready = false;
                 i2c_thread.flags_set(I2C_SIGNAL);
                 gps_thread.flags_set(GPS_SIGNAL);
@@ -441,14 +437,18 @@ void state_machine_cycle(){
             if (button_pressed_msg) {
                 button_pressed_msg = 0;
                 actual_state = TEST;
+                ticker.detach();
+                timeout.detach();
                 ticker.attach(ticker_isr,2000ms);
                 timeout.attach(timeout_isr, 1600ms);
                 board_leds.write(1);
+                reset_temp_data();
+                sleep_ready = false;
+                printf("Advanced a Test\n");
+                ThisThread::sleep_for(400ms);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
-                reset_temp_data();
-                printf("Advanced a Test\n");
             }
             deep_sleep_stop();
         break;
