@@ -47,6 +47,12 @@ extern volatile int color_sensor_message;
 #define COLOR_SENSOR_BDATAH 0x1B
 
 /**
+* @brief Cleanning and reading of Interrupt in the color sensor
+* @param read If true, reads the value of the clear data in the interrupt register and sends a msg.
+*/
+extern void clean_interrupt(bool read);
+
+/**
 * @brief Reading of the color data.
 */
 extern void  color_sensor_read();
