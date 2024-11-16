@@ -64,7 +64,7 @@
 
 extern volatile int acc_msg;
 
-extern void clean_acc_interrupt();
+extern void clear_acc_interrupt();
 
 /**
 * @brief Reading of the accelerometer data
