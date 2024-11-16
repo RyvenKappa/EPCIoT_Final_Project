@@ -33,7 +33,7 @@ static void read_acc_x_y_z(){
     ctrl_msg_t.accelerometer_msg.z_acc = ((float)z_acc)*9.80665/ACCELEROMETER_8G;
 }
 
-void clean_acc_interrupt(){
+void clear_acc_interrupt(){
     cmd[0] = ACCELEROMETER_PL_STATUS;
     i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,1,true);
     i2c_bus.read(ACCELEROMETER_SLAVE_ADDRESS<<1,data,1);
