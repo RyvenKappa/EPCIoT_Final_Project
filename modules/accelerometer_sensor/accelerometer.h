@@ -62,7 +62,6 @@
 #define ACCELEROMETER_4G 2048.0
 #define ACCELEROMETER_2G 4096.0
 
-extern volatile int acc_msg;
 
 extern void clear_acc_interrupt();
 

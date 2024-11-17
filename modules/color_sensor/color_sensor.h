@@ -17,7 +17,6 @@
 #define COLOR_SENSOR_LED PA_9
 
 #define COLOR_SENSOR_INT PA_11
-extern volatile int color_sensor_message;
 
 #define COLOR_SENSOR_SLAVE_ADDRESS 0x29
 
@@ -46,9 +45,11 @@ extern volatile int color_sensor_message;
 #define COLOR_SENSOR_BDATAL 0x1A
 #define COLOR_SENSOR_BDATAH 0x1B
 
+
+extern volatile int color_sensor_message;
 /**
 * @brief Cleanning and reading of Interrupt in the color sensor
-* @param read If true, reads the value of the clear data in the interrupt register and sends a msg.
+* @param read If true, reads the value of the clear data in the interrupt register and sends a msg, if false, only interruption cleaning.
 */
 extern void clean_interrupt(bool read);
 

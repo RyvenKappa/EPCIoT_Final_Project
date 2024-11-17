@@ -99,6 +99,15 @@ static volatile bool ticker_event = false;
 
 static bool sleep_ready = true;
 
+static volatile bool acc_msg = false;
+
+InterruptIn acc_int(PA_12,PullDown);
+
+void int_handler(){
+    acc_msg=true;
+    SCB->SCR &= ~(SCB_SCR_SLEEPONEXIT_Msk);
+}
+
 /**
 * Ticker ISR
 */
@@ -113,6 +122,7 @@ void timeout_isr(){
 void state_machine_init(){
     actual_state = TEST;
     board_leds.write(1);
+    acc_int.fall(&int_handler);
     ticker.attach(ticker_isr,2000ms);
     timeout.attach(timeout_isr, 1600ms);
     i2c_bus.frequency(400000);
@@ -413,9 +423,18 @@ void state_machine_cycle(){
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
+                if(acc_msg==true){
+                    acc_msg = false;
+                    clear_acc_interrupt();
+                }
             }
         break;
         case ADVANCED:
+            if(acc_msg==true){
+                acc_msg = false;
+                clear_acc_interrupt();
+                printf("El acelerometro ha detectado un cambio de orientación\n");
+            }
             if(timeout_event){
                 timeout_event = false;
                 sleep_ready = false;

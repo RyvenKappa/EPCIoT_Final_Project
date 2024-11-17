@@ -10,13 +10,7 @@ static ctrl_msg ctrl_msg_t;
 static char cmd[2];
 static char data[6];
 
-volatile int acc_msg = 0;
 
-InterruptIn acc_int(PA_12,PullDown);
-
-void int_handler(){
-    acc_msg=1;
-}
 /**
 * Static function to read axis
 * Acceleration is 14bits ->0b00DDDDDD DDDDDDDD
@@ -35,8 +29,10 @@ static void read_acc_x_y_z(){
 
 void clear_acc_interrupt(){
     cmd[0] = ACCELEROMETER_PL_STATUS;
+    i2c_bus.lock();
     i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,1,true);
     i2c_bus.read(ACCELEROMETER_SLAVE_ADDRESS<<1,data,1);
+    i2c_bus.unlock();
 }
 
 /**
@@ -61,7 +57,6 @@ void accelerometer_sensor_read(){
 }
 
 void accelerometer_sensor_init(){
-    acc_int.rise(&int_handler);
     //Reset of the sensor
     cmd[0] = ACCELEROMETER_CTRL_REG2;
     cmd[1] = 0x40;
@@ -90,8 +85,16 @@ void accelerometer_sensor_init(){
     cmd[0] = ACCELEROMETER_CTRL_REG4;
     cmd[1] = 0x10;
     i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
+    //Debounce counter to 100ms
+    cmd[0] = ACCELEROMETER_PL_COUNT;
+    cmd[1] = 0x05;
+    i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
     cmd[0] = ACCELEROMETER_CTRL_REG1;
     cmd[1] = 0x31;//Active
     i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,2);
+    //Clean the first interrupt
+    cmd[0] = ACCELEROMETER_PL_STATUS;
+    i2c_bus.write(ACCELEROMETER_SLAVE_ADDRESS<<1,cmd,1,true);
+    i2c_bus.read(ACCELEROMETER_SLAVE_ADDRESS<<1,data,1);
     ThisThread::sleep_for(5ms);
 }
