@@ -223,7 +223,6 @@ static void data_to_serial(){
             printf("COLOR IS BLUE, CHECK COLOR SENSOR!\n");
             change_led_color(true, true, true);
         }
-        //ACELERATION TODO CRASH
         printf("\n");
     }
     //Print typical message
@@ -418,6 +417,7 @@ void state_machine_cycle(){
                 board_leds.write(4);
                 reset_temp_data();
                 sleep_ready = true;
+                change_led_color(false, false, false);
                 printf("Normal a Advanced\n");
                 ThisThread::sleep_for(400ms);
                 while(!ctrl_in_queue.empty()){
@@ -463,6 +463,7 @@ void state_machine_cycle(){
                 board_leds.write(1);
                 reset_temp_data();
                 sleep_ready = false;
+                change_led_color(false, false, false);
                 printf("Advanced a Test\n");
                 ThisThread::sleep_for(400ms);
                 while(!ctrl_in_queue.empty()){
