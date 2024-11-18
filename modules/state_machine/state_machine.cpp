@@ -80,20 +80,6 @@ static uint8_t red_ocurrences = 0;
 static uint8_t green_ocurrences = 0;
 static uint8_t blue_ocurrences = 0;
 
-static LowPowerTicker ticker;
-static LowPowerTimeout timeout;
-static volatile bool timeout_event = false;
-static volatile bool ticker_event = false;
-/**
-* Ticker ISR
-*/
-void ticker_isr(){
-    ticker_event = true;
-}
-void timeout_isr(){
-    timeout_event = true;
-}
-
 
 //****STATE MACHINE*******************
 enum STATES{
@@ -106,11 +92,39 @@ static char states_names[3][10] = {"TEST","NORMAL","ADVANCED"};
 
 static STATES actual_state;
 
+static LowPowerTicker ticker;
+static LowPowerTimeout timeout;
+static volatile bool timeout_event = false;
+static volatile bool ticker_event = false;
+
+static bool sleep_ready = true;
+
+static volatile bool acc_msg = false;
+
+InterruptIn acc_int(PA_12,PullDown);
+
+void int_handler(){
+    acc_msg=true;
+    SCB->SCR &= ~(SCB_SCR_SLEEPONEXIT_Msk);
+}
+
+/**
+* Ticker ISR
+*/
+void ticker_isr(){
+    ticker_event = true;
+}
+void timeout_isr(){
+    timeout_event = true;
+    SCB->SCR &= ~(SCB_SCR_SLEEPONEXIT_Msk);
+}
+
 void state_machine_init(){
     actual_state = TEST;
     board_leds.write(1);
+    acc_int.fall(&int_handler);
     ticker.attach(ticker_isr,2000ms);
-    timeout.attach(timeout_isr, 1700ms);
+    timeout.attach(timeout_isr, 1600ms);
     i2c_bus.frequency(400000);
 }
 
@@ -168,39 +182,47 @@ static void hour_data_to_serial(){
 * Auxiliar function to print the standard message to the serial when no emergency.
 */
 static void data_to_serial(){
-    printf("MODE: %s\n\n",states_names[actual_state]);
-    if (actual_state!=TEST){
+    printf("MODE: %s\n\n",states_names[actual_state]);;
+    if (actual_state!=TEST){   
+        change_led_color(false, false, false);
         //Temp limits
+        //Red if problem
         if ((temp<10.0) || (temp>35.0)){
             printf("TEMPERATURE %.1f°C EXCEDING LIMITS, lower or raise the air temperature of the room!\n",temp);
-            //TODO LED
+            change_led_color(true, false, false);
         }
         //Humidity limits
+        //Blue if problem
         if((humidity<25) || (humidity>75.0)){
             printf("HUMIDITY %.1f%% EXCEDING LIMITS, increase or reduce the air flow of the room!\n",humidity);
-            //TODO LED
+            change_led_color(false, false, true);
         }
-        //Light limits, check at daytime, do the inverse for nighttime
-        if(light<25){
+        //Light limits
+        //Yellow if problem with light.
+        if(light<10){
             printf("LIGHT %.1f%% TOO LOW!\n",light);
-            //TODO LED
+            change_led_color(true, true, false);
         }
-        if (light>75){
+        if (light>80){
             printf("LIGHT %.1f%% TOO BRIGHT!\n",light);
-            //TODO LED
+            change_led_color(true, true, false);
         }
-        //Moisture limits TODO check with a plant
-        if(moisture<15){
+        //Moisture limits
+        //Purple if problem with moisture.
+        if(moisture<5){
             printf("MOISTURE %.1f%% TOO LOW!\n",moisture);
-            //TODO LED
+            change_led_color(true, false, true);
         }
-        if (moisture>60){
-            printf("MOISTURE %.1f%% TOO BRIGHT!\n",moisture);
-            //TODO LED
+        if (moisture>85){
+            printf("MOISTURE %.1f%% TOO HIGH!\n",moisture);
+            change_led_color(true, false, true);
         }
-        //Color TODO LIMITS OF THE COLOR
-
-        //ACELERATION TODO CRASH
+        //Color problems
+        //Whie if problem with color sensor, detecting more blue.
+        if((color_blue>color_red) && (color_blue>color_green)){
+            printf("COLOR IS BLUE, CHECK COLOR SENSOR!\n");
+            change_led_color(true, true, true);
+        }
         printf("\n");
     }
     //Print typical message
@@ -320,6 +342,22 @@ static void read_sensors_data(){
     }
 }
 
+
+/**
+* Inline(every call pastes the same code) function to control the sleep of the MCU
+*/
+inline void deep_sleep_stop(){
+    if(sleep_ready){
+        /*Prepare the entering to sleep mode*/
+        FLASH->ACR &= ~(FLASH_ACR_SLEEP_PD);
+        PWR->CR |= PWR_CR_LPSDSR_Msk;
+        SCB->SCR &= ~(SCB_SCR_SLEEPDEEP_Msk);
+        SCB->SCR |= SCB_SCR_SLEEPONEXIT_Msk;
+    }
+    __WFI();
+}
+
+
 void state_machine_cycle(){
     switch (actual_state) {
         case TEST:
@@ -333,7 +371,7 @@ void state_machine_cycle(){
                 read_sensors_data();
                 data_to_serial();
                 ticker.attach(ticker_isr,2000ms);
-                timeout.attach(timeout_isr, 1700ms);
+                timeout.attach(timeout_isr, 1600ms);
             }
             if(button_pressed_msg){
                 button_pressed_msg = 0;
@@ -341,13 +379,14 @@ void state_machine_cycle(){
                 ticker.detach();
                 timeout.detach();
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29700ms);
+                timeout.attach(timeout_isr, 29600ms);
                 board_leds.write(2);
+                change_led_color(false, false, false);
+                printf("Test a Normal\n");
+                ThisThread::sleep_for(400ms);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
-                change_led_color(false, false, false);
-                printf("Test a Normal\n");
             }
         break;
         case NORMAL:
@@ -365,7 +404,7 @@ void state_machine_cycle(){
                     hour_data_to_serial();
                 }
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29700ms);
+                timeout.attach(timeout_isr, 29600ms);
 
             }
             if (button_pressed_msg) {
@@ -374,18 +413,31 @@ void state_machine_cycle(){
                 ticker.detach();
                 timeout.detach();
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29700ms);
+                timeout.attach(timeout_isr, 29600ms);
                 board_leds.write(4);
+                reset_temp_data();
+                sleep_ready = true;
+                change_led_color(false, false, false);
+                printf("Normal a Advanced\n");
+                ThisThread::sleep_for(400ms);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
-                reset_temp_data();
-                printf("Normal a Advanced\n");
+                if(acc_msg==true){
+                    acc_msg = false;
+                    clear_acc_interrupt();
+                }
             }
         break;
         case ADVANCED:
+            if(acc_msg==true){
+                acc_msg = false;
+                clear_acc_interrupt();
+                printf("El acelerometro ha detectado un cambio de orientación\n");
+            }
             if(timeout_event){
                 timeout_event = false;
+                sleep_ready = false;
                 i2c_thread.flags_set(I2C_SIGNAL);
                 gps_thread.flags_set(GPS_SIGNAL);
             }
@@ -398,22 +450,27 @@ void state_machine_cycle(){
                     hour_data_to_serial();
                 }
                 ticker.attach(ticker_isr,30000ms);
-                timeout.attach(timeout_isr, 29700ms);
-
+                timeout.attach(timeout_isr, 29600ms);
+                sleep_ready = true;
             }
             if (button_pressed_msg) {
                 button_pressed_msg = 0;
                 actual_state = TEST;
+                ticker.detach();
+                timeout.detach();
                 ticker.attach(ticker_isr,2000ms);
-                timeout.attach(timeout_isr, 1700ms);
+                timeout.attach(timeout_isr, 1600ms);
                 board_leds.write(1);
+                reset_temp_data();
+                sleep_ready = false;
+                change_led_color(false, false, false);
+                printf("Advanced a Test\n");
+                ThisThread::sleep_for(400ms);
                 while(!ctrl_in_queue.empty()){
                     ctrl_in_queue.try_get(&ctrl_msg_t); //Empty possible previous messages
                 }
-                reset_temp_data();
-                printf("Advanced a Test\n");
             }
-        //TODO meter la llamada a sleep
+            deep_sleep_stop();
         break;
     }
 }

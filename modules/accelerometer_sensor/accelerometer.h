@@ -62,6 +62,9 @@
 #define ACCELEROMETER_4G 2048.0
 #define ACCELEROMETER_2G 4096.0
 
+
+extern void clear_acc_interrupt();
+
 /**
 * @brief Reading of the accelerometer data
 */

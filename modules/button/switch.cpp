@@ -11,6 +11,7 @@ volatile int button_pressed_msg = 0;
 
 void switch_pressed_handler(){
     button_pressed_msg = 1;
+    SCB->SCR &= ~(SCB_SCR_SLEEPONEXIT_Msk);
 }
 
 void button_init(){

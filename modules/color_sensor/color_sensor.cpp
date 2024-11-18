@@ -7,6 +7,17 @@
 
 DigitalOut color_led(COLOR_SENSOR_LED);
 
+volatile int color_sensor_message = false;
+
+/**
+* ISR for the color sensor interruption
+* It will always be saved in order to be cleaned when entering advanced mode
+*/
+void color_sensor_handler(){
+    color_sensor_message = true;
+    SCB->SCR &= ~(SCB_SCR_SLEEPONEXIT_Msk);
+}
+
 static ctrl_msg ctrl_msg_t;
 
 static char cmd[2];
@@ -17,15 +28,10 @@ static char data[8];
 static void measurement_process(){
     ctrl_msg_t.color_msg.clear = data[1]<<8 | data[0];
     ctrl_msg_t.color_msg.red = data[3]<<8 | data[2];
-    ctrl_msg_t.color_msg.green = data[5]<<8 | data[4];
-    ctrl_msg_t.color_msg.blue = data[7]<<8 | data[6];
-    //Ask if compensation is needed to take into account the sensor response to different light longitudes
+    ctrl_msg_t.color_msg.green = (data[5]<<8 | data[4]); //+ ctrl_msg_t.color_msg.red*0.2;
+    ctrl_msg_t.color_msg.blue = (data[7]<<8 | data[6]); //+ ctrl_msg_t.color_msg.red*0.3;
 }
 
-
-/**
-* Static function for the thread loop
-*/
 void color_sensor_read(){
     ctrl_msg_t.type=COLOR;
     ctrl_msg_t.color_msg.blue=0;
@@ -55,6 +61,7 @@ void color_sensor_read(){
 
 
 void color_sensor_init(){
+    //color_int.rise(&color_sensor_handler);
     cmd[0] = COLOR_SENSOR_CMD_MSK | COLOR_SENSOR_TYPE_AUTO_INCREMENT | COLOR_SENSOR_ENABLE;
     cmd[1] = 0x02; //Wait dissabled, interruptions dissabled and AEN deactivated
     i2c_bus.write(COLOR_SENSOR_SLAVE_ADDRESS<<1,cmd,2);

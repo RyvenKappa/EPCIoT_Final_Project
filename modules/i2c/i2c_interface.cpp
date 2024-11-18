@@ -12,9 +12,11 @@ Thread i2c_thread(osPriorityNormal,512,nullptr,"I2CThread");
 static void i2c_read_sensors(){
     while (true) {
         ThisThread::flags_wait_all(I2C_SIGNAL);
+        i2c_bus.lock();
         accelerometer_sensor_read();
         color_sensor_read();
         temp_hum_sensor_read();
+        i2c_bus.unlock();
     }
 }
 
