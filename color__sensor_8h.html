@@ -133,7 +133,8 @@ $(function(){initNavTree('color__sensor_8h.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">color_sensor.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -149,6 +150,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a4b4c70018d9b74364d3ddfb7c4a4cd07" id="r_a4b4c70018d9b74364d3ddfb7c4a4cd07"><td class="memItemLeft" align="right" valign="top"><a id="a4b4c70018d9b74364d3ddfb7c4a4cd07" name="a4b4c70018d9b74364d3ddfb7c4a4cd07"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>COLOR_SENSOR_LED</b>&#160;&#160;&#160;PA_9</td></tr>
 <tr class="separator:a4b4c70018d9b74364d3ddfb7c4a4cd07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4428dfde6cbd98c22d7b58d84a404ba1" id="r_a4428dfde6cbd98c22d7b58d84a404ba1"><td class="memItemLeft" align="right" valign="top"><a id="a4428dfde6cbd98c22d7b58d84a404ba1" name="a4428dfde6cbd98c22d7b58d84a404ba1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>COLOR_SENSOR_INT</b>&#160;&#160;&#160;PA_11</td></tr>
+<tr class="separator:a4428dfde6cbd98c22d7b58d84a404ba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7ac144fbb22a44749e5071fc8a3768f8" id="r_a7ac144fbb22a44749e5071fc8a3768f8"><td class="memItemLeft" align="right" valign="top"><a id="a7ac144fbb22a44749e5071fc8a3768f8" name="a7ac144fbb22a44749e5071fc8a3768f8"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>COLOR_SENSOR_SLAVE_ADDRESS</b>&#160;&#160;&#160;0x29</td></tr>
 <tr class="separator:a7ac144fbb22a44749e5071fc8a3768f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -221,6 +225,9 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ad2ed44d5582579e95a2b5add55045c2c" id="r_ad2ed44d5582579e95a2b5add55045c2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2ed44d5582579e95a2b5add55045c2c">clean_interrupt</a> (bool read)</td></tr>
+<tr class="memdesc:ad2ed44d5582579e95a2b5add55045c2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleanning and reading of Interrupt in the color sensor.  <br /></td></tr>
+<tr class="separator:ad2ed44d5582579e95a2b5add55045c2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a768a4293cce7bc6043c01bd73a5b97f9" id="r_a768a4293cce7bc6043c01bd73a5b97f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a768a4293cce7bc6043c01bd73a5b97f9">color_sensor_read</a> ()</td></tr>
 <tr class="memdesc:a768a4293cce7bc6043c01bd73a5b97f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reading of the color data.  <br /></td></tr>
 <tr class="separator:a768a4293cce7bc6043c01bd73a5b97f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -228,6 +235,12 @@ Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>color_sensor_init</b> ()</td></tr>
 <tr class="memdesc:a975af4d47a2cebfeca98ce33012fa92f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicialization of the color sensor. <br /></td></tr>
 <tr class="separator:a975af4d47a2cebfeca98ce33012fa92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a07b4dbb68071fc1f0b99af62d8b5d41e" id="r_a07b4dbb68071fc1f0b99af62d8b5d41e"><td class="memItemLeft" align="right" valign="top"><a id="a07b4dbb68071fc1f0b99af62d8b5d41e" name="a07b4dbb68071fc1f0b99af62d8b5d41e"></a>
+volatile int&#160;</td><td class="memItemRight" valign="bottom"><b>color_sensor_message</b></td></tr>
+<tr class="separator:a07b4dbb68071fc1f0b99af62d8b5d41e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Color sensor control module. </p>
@@ -237,6 +250,39 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>color_sensor_init</b>
 <li>Low power states. </li>
 </ul>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="ad2ed44d5582579e95a2b5add55045c2c" name="ad2ed44d5582579e95a2b5add55045c2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2ed44d5582579e95a2b5add55045c2c">&#9670;&#160;</a></span>clean_interrupt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void clean_interrupt </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>read</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cleanning and reading of Interrupt in the color sensor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">read</td><td>If true, reads the value of the clear data in the interrupt register and sends a msg, if false, only interruption cleaning. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a768a4293cce7bc6043c01bd73a5b97f9" name="a768a4293cce7bc6043c01bd73a5b97f9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a768a4293cce7bc6043c01bd73a5b97f9">&#9670;&#160;</a></span>color_sensor_read()</h2>
 
@@ -260,7 +306,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>color_sensor_init</b>
 </table>
 </div><div class="memdoc">
 
-<p>Reading of the color data. </p>
 <p>Reading of the color data. </p>
 <p>AEN &amp; !PON</p>
 
