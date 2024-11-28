@@ -1,6 +1,10 @@
 var searchData=
 [
-  ['final_20project_20repository_20for_20the_20embedded_20platforms_20and_20communications_20for_20iot_0',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]],
-  ['for_20iot_1',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]],
-  ['for_20the_20embedded_20platforms_20and_20communications_20for_20iot_2',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]]
+  ['elements_20em_0',['&lt;em&gt;Hardware Elements&lt;/em&gt;',['../md_README.html#autotoc_md2',1,'']]],
+  ['em_1',['em',['../md_README.html#autotoc_md4',1,'&lt;em&gt;Final Prototype Design&lt;/em&gt;'],['../md_README.html#autotoc_md2',1,'&lt;em&gt;Hardware Elements&lt;/em&gt;'],['../md_README.html#autotoc_md1',1,'&lt;em&gt;Introduction&lt;/em&gt;'],['../md_README.html#autotoc_md3',1,'&lt;em&gt;Software Design&lt;/em&gt;']]],
+  ['em_20final_20prototype_20design_20em_2',['&lt;em&gt;Final Prototype Design&lt;/em&gt;',['../md_README.html#autotoc_md4',1,'']]],
+  ['em_20hardware_20elements_20em_3',['&lt;em&gt;Hardware Elements&lt;/em&gt;',['../md_README.html#autotoc_md2',1,'']]],
+  ['em_20introduction_20em_4',['&lt;em&gt;Introduction&lt;/em&gt;',['../md_README.html#autotoc_md1',1,'']]],
+  ['em_20software_20design_20em_5',['&lt;em&gt;Software Design&lt;/em&gt;',['../md_README.html#autotoc_md3',1,'']]],
+  ['embedded_20platforms_20and_20communications_20for_20iot_6',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]]
 ];

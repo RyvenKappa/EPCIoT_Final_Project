@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['embedded_20platforms_20and_20communications_20for_20iot_0',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]]
+  ['design_20em_0',['Design em',['../md_README.html#autotoc_md4',1,'&lt;em&gt;Final Prototype Design&lt;/em&gt;'],['../md_README.html#autotoc_md3',1,'&lt;em&gt;Software Design&lt;/em&gt;']]]
 ];

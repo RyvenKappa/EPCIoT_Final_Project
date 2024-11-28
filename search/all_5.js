@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['gps_2eh_0',['gps.h',['../gps_8h.html',1,'']]],
-  ['gps_5finit_1',['gps_init',['../gps_8h.html#a99bf51ead6f18c8ed1350febcc6a7675',1,'gps.cpp']]],
-  ['gps_5fmsg_5ft_2',['gps_msg_t',['../structgps__msg__t.html',1,'']]]
+  ['final_20project_20repository_20for_20the_20embedded_20platforms_20and_20communications_20for_20iot_0',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]],
+  ['final_20prototype_20design_20em_1',['&lt;em&gt;Final Prototype Design&lt;/em&gt;',['../md_README.html#autotoc_md4',1,'']]],
+  ['for_20iot_2',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]],
+  ['for_20the_20embedded_20platforms_20and_20communications_20for_20iot_3',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]]
 ];

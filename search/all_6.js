@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['i2c_5finterface_2eh_0',['i2c_interface.h',['../i2c__interface_8h.html',1,'']]],
-  ['i2c_5fthread_5finit_1',['i2c_thread_init',['../i2c__interface_8h.html#a191686705210f9a988d61bc58eede3a6',1,'i2c_interface.cpp']]],
-  ['iot_2',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]]
+  ['gps_2eh_0',['gps.h',['../gps_8h.html',1,'']]],
+  ['gps_5finit_1',['gps_init',['../gps_8h.html#a99bf51ead6f18c8ed1350febcc6a7675',1,'gps.cpp']]],
+  ['gps_5fmsg_5ft_2',['gps_msg_t',['../structgps__msg__t.html',1,'']]]
 ];
