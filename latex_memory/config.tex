@@ -59,6 +59,16 @@
 }
 
 %Tools to write code directly into the document.
-\makeatletter
-\def\BState{\State\hskip-\ALG@thistlm}
-\makeatother
+\lstset{
+    language=C++,         
+    basicstyle=\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    frame=single,
+    tabsize=4,
+    breaklines=true,
+    captionpos=b,
+    showspaces=false,
+    showstringspaces=false
+}
