@@ -28,8 +28,8 @@ static char data[8];
 static void measurement_process(){
     ctrl_msg_t.color_msg.clear = data[1]<<8 | data[0];
     ctrl_msg_t.color_msg.red = data[3]<<8 | data[2];
-    ctrl_msg_t.color_msg.green = (data[5]<<8 | data[4]); //+ ctrl_msg_t.color_msg.red*0.2;
-    ctrl_msg_t.color_msg.blue = (data[7]<<8 | data[6]); //+ ctrl_msg_t.color_msg.red*0.3;
+    ctrl_msg_t.color_msg.green = (data[5]<<8 | data[4]) + ctrl_msg_t.color_msg.red*0.15;
+    ctrl_msg_t.color_msg.blue = (data[7]<<8 | data[6]) + ctrl_msg_t.color_msg.red*0.25;
 }
 
 void color_sensor_read(){
