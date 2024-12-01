@@ -25,7 +25,7 @@ The color sensor was configured to implement the requirements of the advanced mo
 When everything was configured, no observable change in the logical level of the interrupt pin was seen.
 
 To see the problem in a modular way, an external implementation\cite{TCS3472_I2CClasswhich} of an interface to the sensor was used. When trying to enable the interruptions, the code returned a 0, indicating that 
-a problem had ocurred.
+a problem had occurred.
 \subsection{Problems with the accelerometer}
 When working with the accelerometer, the data obtained wasn't being read properly. When inspected with the logical analyzer, the data that was being sent back to the \acrshort{mcu} was fixed. This can be seen in the next figure.
 \begin{figure}[H]
