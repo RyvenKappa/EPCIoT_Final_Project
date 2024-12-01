@@ -53,9 +53,33 @@ When all the messages are collected, the data is processed depending on the stat
         \caption{Information sent to the computer in the TEST mode}
         \label{fig:testSerial}
     \end{figure}
-
+    \clearpage
     \item NORMAL mode: as the requirements specify, the time the messages are read, maximum values and mean values are calculated, as well as situations like extreme moisture.
     
+    All the limitations are in the \autoref{Limits}.
+
+    \begin{table}[H]
+        \begin{center}
+            \begin{tabular}{|p{0.20\textwidth} | p{0.20\textwidth} | p{0.20\textwidth}| p{0.20\textwidth}|}
+                \hline
+                \textbf{Parameter} & \textbf{High limit} & \textbf{Low limit} & \textbf{Led color}\\
+                \hline
+                Temperature & 35 & 10 & red \\
+                \hline
+                Humidity & 75 & 25 & blue \\
+                \hline
+                Brightness & 80 & 10 & Yellow \\
+                \hline
+                Moisture & 85 & 5 & Purple \\
+                \hline
+                Color & Blue &  & White \\
+                \hline
+            \end{tabular}
+        \end{center}
+        \caption{Limits defined for the parameters in the NORMAL mode}
+        \label{Limits}
+    \end{table}
+
     All of this information is sent to the computer, and when one hour has passed, the maximum and mean values are also sent. The format is presented in \autoref{fig:normalSerial}.
     \begin{figure}[H]
         \centering
@@ -76,7 +100,7 @@ Finally, the USER button allows for switching modes in a circular way. When this
 \end{enumerate}
 
 As a final note, as this state machine is working under the main thread of Mbed-OS, no changes were done to the stack or any other property of this thread.
-
+\clearpage
 \subsection{I2C module}
 
 The \acrshort{i2c} module controls the measurement of the accelerometer, temperature and humidity and color sensors.
