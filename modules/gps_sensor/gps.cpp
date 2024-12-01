@@ -1,7 +1,7 @@
 #include "gps.h"
 #include "../state_machine/control.h"
 #include <cstdint>
-Thread gps_thread(osPriorityNormal,1024,nullptr,"GPSThread");
+Thread gps_thread(osPriorityNormal,2048,nullptr,"GPSThread");
 
 static ctrl_msg ctrl_msg_t;
 static char buffer[83];
