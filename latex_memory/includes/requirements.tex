@@ -1,0 +1,106 @@
+\section{REQUIREMENTS ANALYSIS}
+\subsection{Specifications required and implemented}
+
+This section presents in the next tables the list of requirements needed to implement, as well as the implementation status for each specification.
+\vspace{2\baselineskip}
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|p{0.1\textwidth} | p{0.7\textwidth} | p{0.15\textwidth}|}
+            \hline
+            \textbf{Req. ID} & \textbf{Requirement description} & \textbf{Implemented}\\
+            \hline
+            SR1 & The temperature in the range of -10ºC to 50ºC. Accuracy to one tenth of a degree. & Y\\
+            \hline
+            SR2 & The relative humidity in the range of 25\%HR to 75\%HR. Accuracy to one tenth of a percent. & Y\\
+            \hline
+            SR3 & Ambient light in \%, corresponding 0\% to total darkness and 100\% to maximum light. Accuracy to one tenth of a percent. & Y\\
+            \hline
+            SR4 & Soil moisture in \%, corresponding 0\% to total dryness and 100\% to maximum moisture. Accuracy to one tenth of a percent. & Y\\
+            \hline
+            SR5 & Colour of one leaf of the plant. The four associated parameters are clear, red, green, and blue values. & Y\\
+            \hline
+            SR6 & The global location of the plant should be registered. The GPS module also offers the current time (only time, the date is optional), that will be used to timestamp all the measurements taken by the system. & Y\\
+            \hline
+            SR7 & The acceleration of the plant. At least the three axes (X, Y and Z) values should be monitored. & Y\\
+            \hline
+            GR1 & The system must be robust and stable. & Y\\
+            \hline
+            GR2 & Task partitioning and threads management should be stablished according to the requirements. & Y\\
+            \hline
+            GR3 & The system starts in TEST MODE and changes from one operating mode to the next one (TEST – NORMAL ADVANCED - TEST...) by pressing the blue button B1 on the B-L072Z-LRWAN1 board in a circular way. & Y\\
+            \hline
+        \end{tabular} 
+    \end{center}
+    \caption{General requirements implementation status}
+    \label{ReqGeneral}
+\end{table}
+
+\vspace{2\baselineskip}
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|p{0.1\textwidth} | p{0.7\textwidth} | p{0.15\textwidth}|}
+            \hline
+            \textbf{Req. ID} & \textbf{Requirement description} & \textbf{Implemented}\\
+            \hline
+            TM1 & Check connections and sensor management. & Y\\
+            \hline
+            TM2 & All of the required variables should be monitored every 2 seconds. & Y\\
+            \hline
+            TM3 & The system sends every 2 seconds all the measured values to the computer (using the USB virtual COM port of the B-L072Z-LRWAN1 board). & Y\\
+            \hline
+            TM4 & The RGB LED should be coloured in the dominant colour detected by the colour sensor. & Y\\
+            \hline
+            TM5 & In this mode, the LED1 of the B-L072Z-LRWAN1 board should be ON. & Y\\
+            \hline
+        \end{tabular} 
+    \end{center}
+    \caption{Test mode requirements implementation status}
+    \label{ReqTest}
+\end{table}
+
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|p{0.1\textwidth} | p{0.7\textwidth} | p{0.15\textwidth}|}
+            \hline
+            \textbf{Req. ID} & \textbf{Requirement description} & \textbf{Implemented}\\
+            \hline
+            NM1 & All the required variables should be monitored with a cadence of 30s. & Y\\
+            \hline
+            NM2 & The system sends every 30 seconds all the measured values to the computer (using the USB virtual COM port of the B-L072Z-LRWAN1 board). & Y\\
+            \hline
+            NM3 & The system calculates the mean, maximum and minimum values of temperature, relative humidity, ambient light and soil moisture every hour. These values are sent to the computer when calculated. & Y\\
+            \hline
+            NM4 & The system calculates the dominant colour of the leave every hour. This means to calculate which colour has appeared as dominant more times during the last hour. This value is sent to the computer when calculated. & Y\\
+            \hline
+            NM5 & The system calculates the maximum and minimum values of the three axes (X, y and Z) of the accelerometer every hour. These values are sent to the computer when calculated. & Y\\
+            \hline
+            NM6 & The global location of the plant (coordinates) is sent to the computer every 30 seconds. This should include the GPS time (UTC) converted to local time. & Y\\
+            \hline
+            NM7 & Limits for every measured variable (temperature, humidity, ambient light, soil moisture, colour and acceleration) should be fixed. If the current values of the measured parameters are outside the limits, the RGB LED should indicate this situation using a different colour for every parameter. & Y\\
+            \hline
+            NM8 & In this mode, the LED2 of the B-L072Z-LRWAN1 board should be ON. & Y\\
+            \hline
+        \end{tabular} 
+    \end{center}
+    \caption{Normal mode requirements implementation status}
+    \label{ReqNormal}
+\end{table}
+\subsection{Extra specifications implemented}
+\begin{table}[H]
+    \begin{center}
+        \begin{tabular}{|p{0.1\textwidth} | p{0.7\textwidth} | p{0.15\textwidth}|}
+            \hline
+            \textbf{Req. ID} & \textbf{Requirement description} & \textbf{Implemented}\\
+            \hline
+            E1 & The date is also extracted from the GPS data. & Y\\
+            \hline
+            E2 & Compensation for the spectral response of the colour sensor is introduced. & Y\\
+            \hline
+            E3 & Automatic generation of the documentation with a Doxygen file and automatic publishing in a github pages. & Y\\
+            \hline
+        \end{tabular} 
+    \end{center}
+    \caption{Extra requirements implemented}
+    \label{ReqExtra}
+\end{table}
