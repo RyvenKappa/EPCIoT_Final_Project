@@ -354,7 +354,9 @@ inline void deep_sleep_stop(){
         SCB->SCR &= ~(SCB_SCR_SLEEPDEEP_Msk);
         SCB->SCR |= SCB_SCR_SLEEPONEXIT_Msk;
     }
+    __disable_irq();
     __WFI();
+    __enable_irq();
 }
 
 
