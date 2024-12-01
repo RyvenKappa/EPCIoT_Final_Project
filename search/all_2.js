@@ -7,6 +7,6 @@ var searchData=
   ['color_5fsensor_5finit_4',['color_sensor_init',['../color__sensor_8h.html#a975af4d47a2cebfeca98ce33012fa92f',1,'color_sensor.cpp']]],
   ['color_5fsensor_5fread_5',['color_sensor_read',['../color__sensor_8h.html#a768a4293cce7bc6043c01bd73a5b97f9',1,'color_sensor.cpp']]],
   ['communications_20for_20iot_6',['Final Project repository for the Embedded Platforms and Communications for IoT',['../md_README.html',1,'']]],
-  ['control_2eh_7',['control.h',['../control_8h.html',1,'']]],
+  ['control_2eh_7',['control.h',['../latex__memory_2control_8h.html',1,'(Global Namespace)'],['../modules_2state__machine_2control_8h.html',1,'(Global Namespace)']]],
   ['ctrl_5fmsg_8',['ctrl_msg',['../structctrl__msg.html',1,'']]]
 ];

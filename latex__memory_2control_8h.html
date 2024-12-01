@@ -16,7 +16,7 @@
 <meta name="twitter:title" content="Doxygen Awesome" />
 <meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
 <!-- END twitter metadata -->
-<title>EPCIoT_Final_Project: temp_hum_msg_t Struct Reference</title>
+<title>EPCIoT_Final_Project: latex_memory/control.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -105,7 +105,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('structtemp__hum__msg__t.html',''); initResizable(true); });
+$(function(){initNavTree('latex__memory_2control_8h.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -132,37 +132,77 @@ $(function(){initNavTree('structtemp__hum__msg__t.html',''); initResizable(true)
 
 <div class="header">
   <div class="summary">
-<a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">temp_hum_msg_t Struct Reference</div></div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">control.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Structure for the payload of the temperature and humidity msg.  
- <a href="#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="latex__memory_2control_8h_source.html">control.h</a>&gt;</code></p>
+<p>Control thread definition module.  
+<a href="#details">More...</a></p>
+<div class="textblock"><code>#include &quot;mbed.h&quot;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
+</div>
+<p><a href="latex__memory_2control_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Data Fields</h2></td></tr>
-<tr class="memitem:aea29485225f2f2940aa75663dacfab85" id="r_aea29485225f2f2940aa75663dacfab85"><td class="memItemLeft" align="right" valign="top"><a id="aea29485225f2f2940aa75663dacfab85" name="aea29485225f2f2940aa75663dacfab85"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>temp</b></td></tr>
-<tr class="separator:aea29485225f2f2940aa75663dacfab85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99dd00767e3abca586d45c3ed933e140" id="r_a99dd00767e3abca586d45c3ed933e140"><td class="memItemLeft" align="right" valign="top"><a id="a99dd00767e3abca586d45c3ed933e140" name="a99dd00767e3abca586d45c3ed933e140"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>hum</b></td></tr>
-<tr class="separator:a99dd00767e3abca586d45c3ed933e140"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structaccelerometer__msg__t.html">accelerometer_msg_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for the payload of the accelerometer msg.  <a href="structaccelerometer__msg__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgps__msg__t.html">gps_msg_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for the payload of the gps msg.  <a href="structgps__msg__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtemp__hum__msg__t.html">temp_hum_msg_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for the payload of the temperature and humidity msg.  <a href="structtemp__hum__msg__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcolor__msg__t.html">color_msg_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for the payload of the color sensor msg.  <a href="structcolor__msg__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structctrl__msg.html">ctrl_msg</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for the msg entering the main thread.  <a href="structctrl__msg.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a142810068f1b99cd93d3fc9f0e160e02" id="r_a142810068f1b99cd93d3fc9f0e160e02"><td class="memItemLeft" align="right" valign="top"><a id="a142810068f1b99cd93d3fc9f0e160e02" name="a142810068f1b99cd93d3fc9f0e160e02"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>QUEUE_SIZE</b>&#160;&#160;&#160;10</td></tr>
+<tr class="separator:a142810068f1b99cd93d3fc9f0e160e02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acadfc354ad990b13c1afc4a8ef529caf" id="r_acadfc354ad990b13c1afc4a8ef529caf"><td class="memItemLeft" align="right" valign="top"><a id="acadfc354ad990b13c1afc4a8ef529caf" name="acadfc354ad990b13c1afc4a8ef529caf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>I2C_SIGNAL</b>&#160;&#160;&#160;1U</td></tr>
+<tr class="separator:acadfc354ad990b13c1afc4a8ef529caf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afde248296f71689b237397a4fa9e3d30" id="r_afde248296f71689b237397a4fa9e3d30"><td class="memItemLeft" align="right" valign="top"><a id="afde248296f71689b237397a4fa9e3d30" name="afde248296f71689b237397a4fa9e3d30"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>GPS_SIGNAL</b>&#160;&#160;&#160;2U</td></tr>
+<tr class="separator:afde248296f71689b237397a4fa9e3d30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a35822c953540e9ad193309b6d4f65011" id="r_a35822c953540e9ad193309b6d4f65011"><td class="memItemLeft" align="right" valign="top"><a id="a35822c953540e9ad193309b6d4f65011" name="a35822c953540e9ad193309b6d4f65011"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35822c953540e9ad193309b6d4f65011">msg_type</a> { <b>ACCELEROMETER</b>
+, <b>GPS</b>
+, <b>TEMP_HUM</b>
+, <b>COLOR</b>
+ }</td></tr>
+<tr class="memdesc:a35822c953540e9ad193309b6d4f65011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration for the entering msg to the main thread. <br /></td></tr>
+<tr class="separator:a35822c953540e9ad193309b6d4f65011"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a34caad12144301964c962dd500a3198c" id="r_a34caad12144301964c962dd500a3198c"><td class="memItemLeft" align="right" valign="top"><a id="a34caad12144301964c962dd500a3198c" name="a34caad12144301964c962dd500a3198c"></a>
+Queue&lt; <a class="el" href="structctrl__msg.html">ctrl_msg</a>, QUEUE_SIZE &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ctrl_in_queue</b></td></tr>
+<tr class="separator:a34caad12144301964c962dd500a3198c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Structure for the payload of the temperature and humidity msg. </p>
-</div><hr/>The documentation for this struct was generated from the following files:<ul>
-<li>latex_memory/<a class="el" href="latex__memory_2control_8h_source.html">control.h</a></li>
-<li>modules/state_machine/<a class="el" href="modules_2state__machine_2control_8h_source.html">control.h</a></li>
-</ul>
-</div><!-- contents -->
+<div class="textblock"><p>Control thread definition module. </p>
+<dl class="section author"><dt>Author</dt><dd>Diego Aceituno Seoane</dd></dl>
+<p>Module that defines the required elements to communicate the threads and relevant information for signals. </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structtemp__hum__msg__t.html">temp_hum_msg_t</a></li>
+    <li class="navelem"><a class="el" href="dir_214460e05ac151ef51b728489328be66.html">latex_memory</a></li><li class="navelem"><a class="el" href="latex__memory_2control_8h.html">control.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0 </li>
   </ul>
 </div>
