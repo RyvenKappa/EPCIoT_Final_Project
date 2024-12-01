@@ -88,7 +88,7 @@ When all the messages are collected, the data is processed depending on the stat
         \label{fig:normalSerial}
     \end{figure}
 
-    \item ADVANCED mode: this mode is presented and described in it's own chapter.%TODO meter label y hyperef
+    \item ADVANCED mode: this mode is presented and described in it's own \hyperref[AdvancedChapter]{chapter}.
 \end{itemize}
 
 Finally, the USER button allows for switching modes in a circular way. When this button is pressed:
@@ -96,7 +96,7 @@ Finally, the USER button allows for switching modes in a circular way. When this
     \item The timeouts are re-configured.
     \item The led of the board that is on changes to indicate the new state.
     \item The RGB led is turned off.
-    \item The thread waits \texttt{400 ms} for any new messages from the other threads, in order to empty the queue for the new state.%TODO hablar de este problema.
+    \item The thread waits \texttt{400 ms} for any new messages from the other threads, in order to empty the queue for the new state.
 \end{enumerate}
 
 As a final note, as this state machine is working under the main thread of Mbed-OS, no changes were done to the stack or any other property of this thread.
