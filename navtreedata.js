@@ -25,12 +25,7 @@
 var NAVTREE =
 [
   [ "EPCIoT_Final_Project", "index.html", [
-    [ "Final Project repository for the Embedded Platforms and Communications for IoT", "md_README.html", [
-      [ "Introduction", "md_README.html#autotoc_md1", null ],
-      [ "Hardware Elements", "md_README.html#autotoc_md2", null ],
-      [ "Software Design", "md_README.html#autotoc_md3", null ],
-      [ "Final Prototype Design", "md_README.html#autotoc_md4", null ]
-    ] ],
+    [ "Final Project repository for the Embedded Platforms and Communications for IoT", "index.html", "index" ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ]
