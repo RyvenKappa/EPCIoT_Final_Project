@@ -15,9 +15,11 @@ All the necessary elements to develop the project was lent by the _Electronics a
 - **TCS34725** Color Sensor to analyze the color of the leaves of the plant.
 - **SI7021-A20** Temperature and Humidity sensor to analyze the air characteristics.
 - **Adafruit FGPMMOPA6H** integration to provide GPS location and date/hour estimation.
-
+## _Hardware Block Diagram_
+![General drawio](https://github.com/user-attachments/assets/51e26a4e-9df1-4042-bc1a-eca1ddbf7d18)
 ## _Software Design_
-TODO
+![softdiagram](https://github.com/user-attachments/assets/eb67623b-5794-426e-a8fc-bf4fb2a8dc70)
+
 ## _Final Prototype Design_
 ![image](https://github.com/user-attachments/assets/7a0f49d2-3d71-446f-bc38-0bca12299a01)
 
