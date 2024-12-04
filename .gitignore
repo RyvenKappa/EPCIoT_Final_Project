@@ -6,4 +6,5 @@ mbed-os
 BUILD
 latex_memory/out/*
 .vscode
+*.zip
 
